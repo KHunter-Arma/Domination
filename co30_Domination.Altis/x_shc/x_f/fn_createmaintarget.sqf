@@ -6,7 +6,9 @@
 if !(call d_fnc_checkSHC) exitWith {};
 
 private _selectit = {
-	(ceil (random (((_this select 0) select (_this select 1)) # 1)))
+	//(ceil (random (((_this select 0) select (_this select 1)) # 1)))
+	//Hunter: make this static and not randomised for better balancing control
+	((_this select 0) select (_this select 1)) # 1
 };
 
 private _selectitmen = {
@@ -25,6 +27,8 @@ private _selectitvec = {
 	private _a_vng2 = ((_this select 0) select (_this select 1)) # 0;
 	if (_a_vng2 # 0 > 0) then {private _num_ret = floor (random ((_a_vng2 # 0) + 1));if (_num_ret < _a_vng2 # 1) then {_a_vng2 # 1} else {_num_ret}} else {0}
 };
+
+call d_fnc_scaleEnemyNumbers;
 
 private _type_list_guard = [
 	["allmen", 0, [d_footunits_guard, 0] call _selectitmen],
@@ -54,9 +58,10 @@ private _type_list_patrol = [
 	["jeep_gl", [d_vec_numbers_patrol, 4] call _selectit, [d_vec_numbers_patrol,4] call _selectitvec]
 ];
 
+//Hunter: both of these contain AA as well. should consider separating AA...
 private _type_list_guard_static2 = [
-	["stat_mg", 1, ceil (random 4)],
-	["stat_gl", 1, ceil (random 3)]
+	["stat_mg", 1, 2 max (ceil (random 4))],
+	["stat_gl", 1, 1 max (ceil (random 3))]
 ];
 
 _selectit = nil;

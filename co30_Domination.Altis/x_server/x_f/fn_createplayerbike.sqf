@@ -5,9 +5,13 @@
 
 params ["_unit", "_vtype", "_b_mode"];
 private _pos = getPosATL _unit;
+private _vec = objNull;
+
+// Hunter: could be land or water vehicle!
 private _npos = _pos findEmptyPosition [0, 50, _vtype];
 if !(_npos isEqualTo []) then {_pos = _npos};
-private _vec = createVehicle [_vtype, _pos, [], 0, "NONE"];
+_vec = createVehicle [_vtype, _pos, [], 0, "NONE"];
+
 _vec setDir direction _unit;
 _vec remoteExecCall ["d_fnc_stocbike", _unit];
 if (_b_mode != 1) then {

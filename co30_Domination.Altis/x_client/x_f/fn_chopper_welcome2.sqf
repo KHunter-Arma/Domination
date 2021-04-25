@@ -10,6 +10,7 @@ disableSerialization;
 
 private _welcome_str1 = format [localize "STR_DOM_MISSIONSTRING_183", d_name_pl];
 
+_isplane = false;
 switch (_this select 0) do {
 	case 1: {
 		_welcome_str2 = localize "STR_DOM_MISSIONSTRING_184";
@@ -19,11 +20,16 @@ switch (_this select 0) do {
 		_welcome_str2 = localize "STR_DOM_MISSIONSTRING_186";
 		_welcome_str3 = localize "STR_DOM_MISSIONSTRING_187";
 	};
+	case 3: {
+		_isplane = true;
+	};
 	default {
 		_welcome_str2 = localize "STR_DOM_MISSIONSTRING_188";
 		_welcome_str3 = localize "STR_DOM_MISSIONSTRING_189";
 	};
 };
+
+if (_isplane) exitWith {};
 
 private _vec = _this select 1;
 private _welcome_str4 = [localize "STR_DOM_MISSIONSTRING_191", localize "STR_DOM_MISSIONSTRING_190"] select ((toUpper (typeOf _vec)) in d_check_ammo_load_vecs);

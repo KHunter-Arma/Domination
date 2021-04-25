@@ -58,11 +58,13 @@ if (_rtype == 0) then { // player died
 		} else {
 			call d_fnc_retrieve_respawngear;
 		};
-	};
+	};	
+	/*
 	if (player getVariable ["d_has_gps", false]) then {
 		player linkItem "ItemGPS";
 		player setVariable ["d_has_gps", false];
 	};
+	*/
 	// "RadialBlurr" effect adjustment still needed in A3? - Well, they don't do any harm so they stay
 	"RadialBlur" ppEffectAdjust [0.0, 0.0, 0.0, 0.0];
 	"RadialBlur" ppEffectCommit 0;
@@ -140,29 +142,6 @@ if (_rtype == 0) then { // player died
 	player setFatigue 0;
 	player setBleedingRemaining 0;
 	
-	/*0 spawn {
-		sleep (1 + random 1);
-		private _np = player getVariable ["d_plname", ""];
-		if (_np isEqualTo "" || {_np isEqualTo "Error: No unit"}) then {
-			_np = profileName splitString """'" joinString "";
-			if (_np isEqualTo "Error: No unit") then {
-				_np = (name player) splitString """'" joinString "";
-			};
-			player setVariable ["d_plname", _np, true];
-			d_name_pl = _np;
-		};
-	};*/
-	
-	player disableConversation true;
-	if (!d_with_ai) then {
-		enableSentences false;
-	};
-	[player , "NoVoice"] remoteExecCall ["setSpeaker", -2, false];
-	
-#ifndef __TT__
-	0 spawn {
-		sleep 1;
-		[player] remoteExecCall ["d_fnc_addceo", 2];
-	};
-#endif
+	[player] remoteExecCall ["d_fnc_addceo", 2];
+	//player remoteExecCall ["d_fnc_prison_check", 2];
 };

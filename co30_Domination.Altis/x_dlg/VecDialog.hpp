@@ -80,6 +80,7 @@ class D_VecDialog {
 			style = 2;
 			text = "$STR_DOM_MISSIONSTRING_1326"; 
 			action = "call d_fnc_create_vecx";
+			colorBackground[] = {0, 0.5, 0.5, 0.8};
 			x = 0.52;
 			y = 0.59;
 		};
@@ -89,7 +90,7 @@ class D_VecDialog {
 			action = "closeDialog 0;call d_fnc_teleportx";
 			y = 0.59;
 		};
-		class SATViewButton: DropAmmoButton {
+		/*class SATViewButton: DropAmmoButton {
 			idc = 44459;
 			text = "$STR_DOM_MISSIONSTRING_1327"; 
 			action = "closeDialog 0;createDialog 'D_FakeUAVDialog'";
@@ -100,7 +101,7 @@ class D_VecDialog {
 			text = "$STR_DOM_MISSIONSTRING_1327a"; 
 			action = "closeDialog 0;call d_fnc_makeuav";
 			y = 0.71;
-		};
+		};*/
 		class DeployMHQ: DropAmmoButton {
 			idc = 44462;
 			style = 2;

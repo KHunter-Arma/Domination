@@ -19,18 +19,39 @@ _pl setVariable ["d_plname", _name, true];
 
 private _uid = getPlayerUID _pl;
 
+/*
+object d_player_store is a sort of player database
+each variable in this object is an array wich name is the uid of the player joining
+the array is initialized like this:
+0)  d_autokicktime = i suppose its a variable you can set up in mission settings
+1)  time = time when player joined server
+2)  ??? = empty string
+3)  ??? = 0
+4)  the whole object player passed initially by the script and converted to a string
+5)  sideUnknown
+6)  the name of the player as extracted from the argument passed by the script
+7)  number of teamkill = 0
+8)  number of lives: initially is -2 (infinite) or the value set up in x_setupplayer.sqf
+9)  ??? = 0 (relative to time / handledisconnect)
+10) ??? = empty string
+11) loadout = empty array
+12) score = player's score (update every 1 to maxplayer seconds) 
+13) prison_cell = number of prison's slot, 0 if free
+14) out_prison = used to calculate the time player has passed in prison
+*/
+
 private _p = d_player_store getVariable _uid;
 private _f_c = false;
 private _sidepl = side (group _pl);
 __TRACE_1("","_sidepl")
 if (isNil "_p") then {
-	_p = [time + d_AutoKickTime, time, "", 0, str _pl, _sidepl, _name, 0, [-2, xr_max_lives] select (xr_max_lives != -1), 0, "", [], []];
+	_p = [time + d_AutoKickTime, time, "", 0, str _pl, _sidepl, _name, 0, [-2, xr_max_lives] select (xr_max_lives != -1), 0, "", [], [], 0, 0];
 	d_player_store setVariable [_uid, _p];
 	_f_c = true;
 	__TRACE_3("Player not found","_uid","_name","_p")
 } else {
 	__TRACE_1("player store before change","_p")
-	if (_name != _p # 6) then {
+	if ((_name != _p # 6) && {!(_uid in adminarr)}) then {
 		[format [localize "STR_DOM_MISSIONSTRING_506", _name, _p # 6], "GLOBAL"] remoteExecCall ["d_fnc_HintChatMsg", [0, -2] select isDedicated];
 		diag_log format [localize "STR_DOM_MISSIONSTRING_942", _name, _p # 6, _uid];
 	};
@@ -121,6 +142,10 @@ _pl spawn {
 	sleep 1;
 	[_this] call d_fnc_addceo;
 };
+
+if ((_p select 13) == 0) then {_pl setVariable ["d_isinprison", false]} else {_pl setVariable ["d_isinprison", true]};
+
+_pl call d_fnc_prison_check;
 
 #ifdef __DEBUG__
 diag_log [diag_frameno, diag_ticktime, time, "MPF initPlayerServer.sqf processed"];
