@@ -4,11 +4,7 @@
 #include "..\..\x_setup.sqf"
 
 if (local (_this select 0)) then {
-	if (_this select 1) then {
-		(_this select 0) setVehicleLock "LOCKED";
-	} else {
-		(_this select 0) setVehicleLock "UNLOCKED";
-	};
+	(_this select 0) lock (_this select 1)
 };
 if (_this select 1) then {
 	(_this select 0) call d_fnc_createMHQEnemyTeleTrig;

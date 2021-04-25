@@ -3,11 +3,7 @@
 #define THIS_FILE "fn_vehiclescripts.sqf"
 #include "..\..\x_setup.sqf"
 
-private _enterer = param [0];
-private _position = param [1];
 private _vec = _this select 2;
-private _turret = param[3];
-private _vecnum = _vec getvariable ["d_vec",0];
 
 if ((_vec isKindOf "ParachuteBase") || {_vec isKindOf "BIS_Steerable_Parachute"}) exitWith {};
 private _do_exit = false;
@@ -33,20 +29,6 @@ if (!(d_clientScriptsAr # 1) && {!isNil "d_player_autokick_time"}) then {
 };
 if (_do_exit) exitWith {};
 
-//Hunter: Doesn't just check for pilots, but drivers of reserved vehicles too
-if (((_position == "driver") || {(_turret select 0 == 0) && {_position == "gunner"}}) && {!([str _enterer,_vec,_vecnum] call d_fnc_isPilotCheck)}) exitWith {				
-	//player action ["getOut", _vec];
-	moveout player;
-	_vec spawn {
-		sleep 0.1;
-		if (local _this) then {
-			_this engineOn false;
-		} else {
-			[_this, false] remoteExecCall ["engineOn",_this,false];
-		};
-	};
-};
-
 if (_vec isKindOf "Air") then {
 	if (!unitIsUAV _vec && {isClass (configFile>>"CfgVehicles">>(typeOf _vec)>>"Components">>"TransportPylonsComponent")}) then {
 		_vec call d_fnc_addpylon_action;
@@ -57,13 +39,11 @@ if (_vec isKindOf "Air") then {
 		// sadly yet another Arma bug is not fixed, therefore inputAction is also needed... http://feedback.arma3.com/view.php?id=20845
 		d_heli_kh_ro = (findDisplay 46) displayAddEventHandler ["KeyDown", {((_this select 1) in actionKeys "HeliRopeAction" || {(_this select 1) in actionKeys "HeliSlingLoadManager" || {inputAction "HeliRopeAction" > 0 || {inputAction "HeliSlingLoadManager" > 0}}})}];
 	};
-	/*
-	if (d_pilots_only == 0 && {!([_enterer,_vec,_vecnum] call d_fnc_isPilotCheck) && {(_position == "driver") || {(_turret select 0 == 0) && {_position == "gunner"}}}}) then {
+	if (d_pilots_only == 0 && {!(call d_fnc_isPilotCheck) && {_this select 1 == "driver"}}) then {
 		player action ["getOut", _vec];
 		hintSilent localize "STR_DOM_MISSIONSTRING_1417";
 		_do_exit = true;
 	};
-	*/
 	if (!d_with_ace) then {
 		_vec setVariable ["d_rappel_self_action", [
 				/* 0 object */						_vec,

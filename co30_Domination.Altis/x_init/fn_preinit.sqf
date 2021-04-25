@@ -254,7 +254,7 @@ d_x_drop_array =
 		if (d_rhs) exitWith {
 			[[], [localize "STR_DOM_MISSIONSTRING_22", "rhsusf_m998_w_2dr"], [localize "STR_DOM_MISSIONSTRING_20", "Box_NATO_Ammo_F"]]
 		};
-		[[], [localize "STR_DOM_MISSIONSTRING_22", "B_LSV_01_unarmed_F"], [localize "STR_DOM_MISSIONSTRING_20", "Box_NATO_Ammo_F"]]
+		[[], [localize "STR_DOM_MISSIONSTRING_22", ["B_MRAP_01_F", "B_T_LSV_01_unarmed_F"] select d_tanoa], [localize "STR_DOM_MISSIONSTRING_20", "Box_NATO_Ammo_F"]]
 	};
 #endif
 #ifdef __OWN_SIDE_OPFOR__
@@ -342,39 +342,24 @@ d_objectID2 = objNull;
 // no farps in A3 so we fake them
 // first entry should always be a helipad because the trigger which is needed to make it work is spawned there
 // second object is also needed, remove action gets added on the second object
-d_farp_classes = ["Land_HelipadSquare_F", "Land_Cargo20_military_green_F","Land_RepairDepot_01_green_F"];
-
-/*roles*/
-d_badcompany = ["d_badco_1", "d_badco_2", "d_badco_3", "d_badco_4", "d_badco_5", "d_badco_6", "d_badco_7", "d_badco_8", "d_badco_9", "d_badco_10","d_badco_11","d_badco_12", "d_admin"];
-//note that transport pilots and attack pilots are now considered to have the same restrictions and are just called "Pilot". these variables are kept in case we want to go back to the old system...
-d_attack_pilots = ["d_apilot_1", "d_apilot_2", "d_badco_2", "d_badco_8", "d_admin"];
-d_transport_pilots = ["d_medpilot","d_tpilot_1", "d_tpilot_2", "d_tpilot_3", "d_tpilot_4", "d_tpilot_5","d_tpilot_6","d_badco_2","d_badco_8", "d_admin"];
-d_riflemen = ["d_rifleman_1","d_rifleman_2", "d_rifleman_3", "d_rifleman_4", "d_rifleman_5", "d_rifleman_6", "d_badco_10","d_badco_1", "d_admin"];
-d_grenadiers = ["d_grenadier_1","d_grenadier_2", "d_grenadier_3", "d_grenadier_4", "d_grenadier_5", "d_grenadier_6", "d_badco_9", "d_admin"];
-d_autoriflemen = ["d_autorifleman_1","d_autorifleman_2", "d_autorifleman_3", "d_autorifleman_4", "d_autorifleman_5", "d_autorifleman_6", "d_badco_6", "d_admin"];
-d_snipers = ["d_marksman_1","d_marksman_2", "d_marksman_3", "d_marksman_4", "d_marksman_5", "d_marksman_6", "d_badco_5", "d_admin"];
-d_spotters = ["d_spotter_1","d_spotter_2", "d_spotter_3", "d_spotter_4", "d_spotter_5", "d_spotter_6", "d_admin"];
-d_missilesp = ["d_missilesp_1","d_missilesp_2", "d_missilesp_3", "d_missilesp_4", "d_missilesp_5", "d_missilesp_6", "d_badco_7", "d_admin"];
-d_saboteurs = ["d_saboteur_1","d_saboteur_2", "d_saboteur_3", "d_saboteur_4", "d_saboteur_5", "d_saboteur_6", "d_admin"];
-d_medics = ["d_medpilot","d_medic_1","d_medic_2", "d_medic_3", "d_medic_4", "d_medic_5", "d_medic_6", "d_badco_3", "d_admin"];
-d_crewmen = ["d_crewman_1","d_crewman_2", "d_crewman_3", "d_crewman_4", "d_crewman_5", "d_crewman_6", "d_crewman_7", "d_crewman_8", "d_badco_11","d_badco_12","d_admin"];
+d_farp_classes = ["Land_HelipadSquare_F", "Land_Cargo40_military_green_F"];
 
 // artillery operators
 #ifndef __TT__
-d_can_use_artillery = ["d_artop_1", "d_admin"]; // case has to be the same as in mission.sqm, d_artop_1 D_ARTOP_1 is not the same :)
+d_can_use_artillery = ["d_artop_1", "d_artop_2"]; // case has to be the same as in mission.sqm, d_artop_1 D_ARTOP_1 is not the same :)
 #else
 d_can_use_artillery = ["d_artop_blufor", "d_artop_opfor"];
 #endif
 
 // those units can mark artillery targets but can not call in artillery strikes (only d_can_use_artillery can call in artillery strikes and also mark arty targets)
 #ifndef __TT__
-d_can_mark_artillery = ["d_spotter_1", "d_spotter_2", "d_spotter_3", "d_spotter_4", "d_spotter_5", "d_spotter_6", "d_admin"];
+d_can_mark_artillery = ["d_alpha_1", "d_bravo_1", "d_charlie_1", "d_echo_1"];
 #else
 d_can_mark_artillery = ["d_blufor_1", "d_blufor_2", "d_blufor_3", "d_opfor_1", "d_opfor_2", "d_opfor_3"];
 #endif
 
 #ifndef __TT__
-d_can_call_cas = ["d_admin"];
+d_can_call_cas = ["d_alpha_1", "d_bravo_1", "d_charlie_1", "d_echo_1"];
 #else
 d_can_call_cas = ["d_blufor_1", "d_blufor_2", "d_blufor_3", "d_opfor_1", "d_opfor_2", "d_opfor_3"];
 #endif
@@ -492,7 +477,7 @@ if (isServer) then {
 		if (_dbresult # 0 == 1 && {!(_dbresult # 1 isEqualTo [])}) then {
 			{
 				call {
-					if (toLower (_x # 0) in ["d_reserved_slot", "d_uid_reserved_slots", "membersarr"]) exitWith {
+					if (toLower (_x # 0) in ["d_reserved_slot", "d_uid_reserved_slots", "d_uids_for_reserved_slots"]) exitWith {
 						if !((_x # 1) isEqualTo []) then {
 							missionNamespace setVariable [_x # 0, _x # 1, true];
 						};
@@ -596,12 +581,9 @@ if (_isserv_or_hc) then {
 			};
 		};
 		
-		// Hunter: we have a different time mechanism now
-		/*
 		if (d_timemultiplier > 1) then {
 			setTimeMultiplier d_timemultiplier;
 		};
-		*/
 		
 		d_fifo_ar = [];
 	};	
@@ -727,7 +709,7 @@ if (!d_tt_tanoa) then {
 #endif
 	d_specops_G = [["I_G_Soldier_exp_F", "I_Soldier_exp_F", "I_G_Soldier_GL_F", "I_G_medic_F"]];
 
-	d_sabotage_E = [["O_R_Patrol_Soldier_TL_F"]];
+	d_sabotage_E = [["O_recon_exp_F"]];
 	d_sabotage_W = [["B_recon_exp_F"]];
 	d_sabotage_G = [["I_diver_exp_F"]];
 #ifdef __CUP__
@@ -799,7 +781,7 @@ if (!d_tt_tanoa) then {
 	];
 
 #ifdef __ALTIS__
-	d_arti_observer_E = [["O_G_Soldier_A_F"]];
+	d_arti_observer_E = [["O_recon_JTAC_F"]];
 #endif
 #ifdef __ROSCHE__
 	d_arti_observer_E = [["O_recon_JTAC_F"]];
@@ -836,28 +818,8 @@ if (!d_tt_tanoa) then {
 #endif
 	d_arti_observer_G = [["I_Soldier_TL_F"]];
 	
-	//Hunter: convert to player number scaled functions
-	d_number_attack_planes = {
-		private _p = call d_fnc_PlayersNumber;
-		if (_p < 35) exitWith {0};
-		if (_p < 52) exitWith {1};
-		if (_p < 65) exitWith {2};
-		2
-	};
-	d_number_CAP_planes = {
-		private _p = call d_fnc_PlayersNumber;
-		if (_p < 30) exitWith {0};
-		if (_p < 50) exitWith {1};
-		if (_p < 64) exitWith {2};
-		2
-	};
-	d_number_attack_choppers = {
-		private _p = call d_fnc_PlayersNumber;
-		if (_p < 22) exitWith {0};
-		if (_p < 41) exitWith {1};
-		if (_p < 60) exitWith {2};
-		3
-	};
+	d_number_attack_planes = 1;
+	d_number_attack_choppers = 1;
 	
 	// Type of aircraft, that will air drop stuff
 	d_drop_aircraft =
@@ -865,7 +827,7 @@ if (!d_tt_tanoa) then {
 		"I_Heli_Transport_02_F";
 #endif
 #ifdef __OWN_SIDE_BLUFOR__
-		["RHS_CH_47F_light", "B_Heli_Transport_03_unarmed_F"] select (!d_cup);
+		["CUP_B_C130J_Cargo_USMC", "B_Heli_Transport_01_camo_F"] select (!d_cup);
 #endif
 #ifdef __OWN_SIDE_OPFOR__
 		["LIB_Pe2", "O_Heli_Light_02_unarmed_F"] select (!d_ifa3lite);
@@ -885,7 +847,7 @@ if (!d_tt_tanoa) then {
 		["CUP_B_MV22_USMC", "B_T_VTOL_01_infantry_F"] select (!d_cup);
 #endif
 #ifdef __OWN_SIDE_OPFOR__
-		"O_T_VTOL_02_infantry_grey_F";
+		"O_T_VTOL_02_infantry_dynamicLoadout_F";
 #endif
 #ifdef __TT__
 		"O_Heli_Light_02_unarmed_F";
@@ -911,13 +873,6 @@ if (!d_tt_tanoa) then {
 	d_cas_plane = ["RHS_Su25SM_vvsc", "RHS_A10"] select d_rhs_blufor;
 #endif
 
-	d_cargoPlanes = ["B_T_VTOL_01_infantry_F","B_T_VTOL_01_vehicle_F"];
-#ifdef __RHS__
-	d_cargoPlanes = ["RHS_C130J"];
-#endif
-	publicVariable "d_cargoPlanes";
-
-	// Hunter: WARNING! Setting these numbers too high will cause AO to not initialise at all, especially with numbers scaling!	
 	// max men for main target clear
 	d_man_count_for_target_clear = 6;
 	// max tanks for main target clear
@@ -925,15 +880,8 @@ if (!d_tt_tanoa) then {
 	// max cars for main target clear
 	d_car_count_for_target_clear = 1;
 		
-	// time (in sec) between attack planes and choppers over main target will respawn once they were shot down.
-	// Hunter: convert to function to scaled for player count
-	d_airai_respawntime = {
-		private _p = call d_fnc_PlayersNumber;
-		if (_p < 50) exitWith {1500};
-		if (_p < 57) exitWith {1300};
-		if (_p < 65) exitWith {1100};		
-		900
-	};
+	// time (in sec) between attack planes and choppers over main target will respawn once they were shot down (a random value between 0 and 240 will be added)
+	d_airai_respawntime = 1200;
 
 	d_side_missions_random = [];
 	d_player_created = [];
@@ -1047,10 +995,10 @@ if (!d_tt_tanoa) then {
 		case "G": {"Land_Cargo_HQ_V1_F"};
 	};
 
-	// Hunter: type of CAS plane that will fly over main target
+	// type of enemy plane that will fly over the main target
 #ifndef __CUP__
 	d_airai_attack_plane = switch (d_enemy_side_short) do {
-		case "E": {["O_Plane_CAS_02_Cluster_F","I_Plane_Fighter_03_Cluster_F","I_Plane_Fighter_04_F"]};
+		case "E": {["O_Plane_CAS_02_F"]};
 		case "W": {[["LIB_FW190F8", "LIB_FW190F8_4", "LIB_FW190F8_2", "LIB_FW190F8_5", "LIB_FW190F8_3"], ["B_Plane_CAS_01_F"]] select (!d_ifa3lite)};
 		case "G": {["I_Plane_Fighter_03_CAS_F"]};
 	};
@@ -1062,23 +1010,18 @@ if (!d_tt_tanoa) then {
 	};
 #endif
 
-//Hunter: add CAP
-d_airai_CAP_plane = ["O_Plane_Fighter_02_Stealth_F","O_Plane_Fighter_02_F"];
-
 #ifdef __RHS__
 	d_airai_attack_plane = switch (d_enemy_side_short) do {
-		case "E": {["RHS_Su25SM_vvsc","RHS_Su25SM_vvs"]};
+		case "E": {["rhs_mig29s_vmf","rhs_mig29sm_vmf","rhs_mig29s_vvsc","rhs_mig29sm_vvsc","RHS_Su25SM_vvsc","RHS_Su25SM_vvs","RHS_T50_vvs_generic_ext","RHS_T50_vvs_blueonblue"]};
 		case "W": {["RHS_A10","rhsusf_f22"]};
 		case "G": {["I_Plane_Fighter_03_CAS_F"]};
 	};
-	
-	d_airai_CAP_plane = ["rhs_mig29sm_vmf","rhs_mig29sm_vvsc","RHS_T50_vvs_051","RHS_T50_vvs_052"];
 #endif
 
 #ifndef __CUP__
 	// type of enemy chopper that will fly over the main target
 	d_airai_attack_chopper = switch (d_enemy_side_short) do {
-		case "E": {["O_Heli_Attack_02_F","I_Heli_light_03_F","O_T_VTOL_02_infantry_grey_F"]};
+		case "E": {["O_Heli_Attack_02_F"]};
 		case "W": {[["LIB_Ju87_Italy2", "LIB_Ju87_Italy", "LIB_Ju87"], ["B_Heli_Attack_01_F"]] select (!d_ifa3lite)};
 		case "G": {["I_Heli_light_03_F"]};
 	};
@@ -1094,7 +1037,7 @@ d_airai_CAP_plane = ["O_Plane_Fighter_02_Stealth_F","O_Plane_Fighter_02_F"];
 #ifdef __RHS__
 	// type of enemy chopper that will fly over the main target
 	d_airai_attack_chopper = switch (d_enemy_side_short) do {
-		case "E": {["RHS_Ka52_vvs","RHS_Mi24V_vvs","rhs_mi28n_vvs","RHS_Mi8MTV3_heavy_vvs","RHS_Ka52_vvsc","RHS_Mi24V_vvsc","rhs_mi28n_vvsc","RHS_Mi8MTV3_heavy_vvsc"]};
+		case "E": {["RHS_Mi24P_vdv","RHS_Mi24V_vdv","RHS_Ka52_vvsc","RHS_Mi24P_vvsc","RHS_Mi24Vt_vvsc","rhs_mi28n_vvsc"]};
 		case "W": {["RHS_AH64D","RHS_AH64DGrey","RHS_AH64D_wd","RHS_AH1Z","RHS_AH1Z_wd"]};
 		case "G": {["I_Heli_light_03_F"]};
 	};
@@ -1103,7 +1046,7 @@ d_airai_CAP_plane = ["O_Plane_Fighter_02_Stealth_F","O_Plane_Fighter_02_F"];
 #ifdef __ALTIS__
 	// enemy parachute troops transport chopper
 	d_transport_chopper = switch (d_enemy_side_short) do {
-		case "E": {["O_Heli_Transport_04_covered_F","I_Heli_Transport_02_F"]};
+		case "E": {["O_T_VTOL_02_infantry_grey_F"]};
 		case "W": {["B_T_VTOL_01_infantry_blue_F"]};
 		case "G": {["I_Heli_Transport_02_F"]};
 	};
@@ -1179,7 +1122,7 @@ d_airai_CAP_plane = ["O_Plane_Fighter_02_Stealth_F","O_Plane_Fighter_02_F"];
 #endif
 #ifdef __RHS__
 	d_transport_chopper = switch (d_enemy_side_short) do {
-		case "E": {["RHS_Mi8mt_Cargo_vv"]};
+		case "E": {["RHS_Mi8MTV3_vvsc"]};
 		case "W": {["rhsusf_CH53E_USMC"]};
 		case "G": {["I_Heli_Transport_02_F"]};
 	};
@@ -1188,7 +1131,7 @@ d_airai_CAP_plane = ["O_Plane_Fighter_02_Stealth_F","O_Plane_Fighter_02_F"];
 #ifndef __CUP__
 	// light attack chopper (for example I_Heli_light_03_F with MG)
 	d_light_attack_chopper = switch (d_enemy_side_short) do {
-		case "E": {["I_Heli_light_03_F"]};
+		case "E": {["O_Heli_Attack_02_black_F"]};
 		case "W": {[["LIB_Ju87_Italy2"], ["B_Heli_Light_01_armed_F"]] select (!d_ifa3lite)};
 		case "G": {["I_Heli_light_03_F"]};
 	};
@@ -1224,16 +1167,16 @@ if (hasInterface) then {
 	// if you don't log in when you've chosen the slot, you'll get kicked after ~20 once the intro ended
 	// default is no check, example: d_reserved_slot = ["d_artop_1"];
 	if (isNil "d_reserved_slot") then {
-		d_reserved_slot = ["d_admin"];
+		d_reserved_slot = [];
 	};
 
-	// d_uid_reserved_slots and membersarr gives you the possibility to limit a slot
-	// you have to add the var names of the units to d_uid_reserved_slots and in membersarr the UIDs of valid players
+	// d_uid_reserved_slots and d_uids_for_reserved_slots gives you the possibility to limit a slot
+	// you have to add the var names of the units to d_uid_reserved_slots and in d_uids_for_reserved_slots the UIDs of valid players
 	// d_uid_reserved_slots = ["d_alpha_1", "d_bravo_3"];
-	// membersarr = ["1234567", "7654321"];
+	// d_uids_for_reserved_slots = ["1234567", "7654321"];
 	if (isNil "d_uid_reserved_slots") then {
-		d_uid_reserved_slots = ["d_badco_1","d_badco_2","d_badco_3","d_badco_4","d_badco_5","d_badco_6","d_badco_7","d_badco_8","d_badco_9","d_badco_10","d_badco_11","d_badco_12"];
-		//membersarr = [];
+		d_uid_reserved_slots = [];
+		d_uids_for_reserved_slots = [];
 	};
 	
 	// this vehicle will be created if you use the "Create XXX" at a mobile respawn (old "Create Motorcycle") or at a jump flag
@@ -1245,7 +1188,7 @@ if (hasInterface) then {
 	["I_Quadbike_01_F"];
 #endif
 #ifdef __OWN_SIDE_BLUFOR__
-	[["B_LSV_01_unarmed_F","B_Quadbike_01_F","C_Scooter_Transport_01_F"], ["B_Quadbike_01_F", "B_T_LSV_01_unarmed_F","C_Scooter_Transport_01_F"]] select d_tanoa;
+	[["B_Quadbike_01_F", "B_LSV_01_unarmed_F"], ["B_Quadbike_01_F", "B_T_LSV_01_unarmed_F"]] select d_tanoa;
 #endif
 #ifdef __OWN_SIDE_OPFOR__
 	[["O_Quadbike_01_F", "O_LSV_02_unarmed_F"], ["O_Quadbike_01_F", "O_T_LSV_02_unarmed_F"]] select d_tanoa;
@@ -1257,7 +1200,7 @@ if (hasInterface) then {
 	d_create_bike = ["LIB_Willys_MB", "LIB_US_Willys_MB"];
 #endif
 #ifdef __RHS__
-	d_create_bike = [["rhs_tigr_3camo_msv", "RHS_UAZ_MSV_01"], ["rhsusf_mrzr4_d","C_Scooter_Transport_01_F"]] select d_rhs_blufor;
+	d_create_bike = [["rhs_tigr_3camo_msv", "RHS_UAZ_MSV_01"], ["rhsusf_mrzr4_d"]] select d_rhs_blufor;
 #endif
 
 	if (d_weather == 1) then {
@@ -1291,11 +1234,7 @@ if (hasInterface) then {
 	// the only vehicles that can load an ammo box are the transport choppers and MHQs__
 	d_check_ammo_load_vecs =
 #ifdef __OWN_SIDE_BLUFOR__
-	#ifndef __RHS__
-	["B_Truck_01_covered_F", "B_Truck_01_transport_F", "B_Truck_01_mover_F", "B_Heli_Transport_03_F","I_Boat_Armed_01_minigun_F"];
-	#else
-	["RHSUSF_M1078A1P2_B_D_CP_FMTV_USARMY","RHSUSF_M1078A1P2_B_M2_D_FMTV_USARMY","RHSUSF_M1083A1P2_B_M2_D_FMTV_USARMY","RHS_CH_47F_10","RHSUSF_MKVSOC"];
-	#endif
+	["B_Heli_Light_01_F", "B_MRAP_01_F", "B_APC_Tracked_01_CRV_F", "B_T_APC_Tracked_01_CRV_F","CUP_B_M1133_MEV_Woodland","CUP_B_LAV25_HQ_USMC","CUP_B_M1133_MEV_Desert","CUP_B_UH1Y_UNA_USMC","I_Heli_light_03_unarmed_F","RHS_MELB_MH6M","rhsusf_M1232_usarmy_wd"];
 #endif
 #ifdef __OWN_SIDE_OPFOR__
 	[["LIB_US6_Tent"], ["O_MRAP_02_F", "O_Heli_Light_02_unarmed_F", "B_APC_Tracked_01_CRV_F", "rhsgref_BRDM2UM_vdv", "RHS_Mi8AMT_vvs"]] select (!d_ifa3lite);
@@ -1368,14 +1307,14 @@ if (hasInterface) then {
 
 	// is engineer
 #ifndef __TT__
-	d_is_engineer = ["d_engineer_1","d_engineer_2","d_badco_4","d_admin"];
+	d_is_engineer = ["d_delta_1","d_delta_2","d_delta_3","d_delta_4","d_delta_5","d_delta_6"];
 #else
 	d_is_engineer = ["d_blufor_17","d_blufor_18","d_blufor_19","d_opfor_17","d_opfor_18","d_opfor_19"];
 #endif
 
 	// can call in air drop
 #ifndef __TT__
-	d_can_call_drop_ar = ["d_admin"];
+	d_can_call_drop_ar = ["d_alpha_1","d_charlie_1","d_echo_1"];
 #else
 	d_can_call_drop_ar = [];
 #endif
@@ -1396,7 +1335,7 @@ if (hasInterface) then {
 	"I_Heli_light_03_unarmed_F";
 #endif
 #ifdef __RHS__
-	d_jump_helo = ["RHS_Mi8mt_Cargo_vv", "RHS_UH1Y_UNARMED_d"] select d_rhs_blufor;
+	d_jump_helo = ["RHS_Mi8mt_vvs", "RHS_UH1Y_UNARMED_d"] select d_rhs_blufor;
 #endif
 	
 	d_headbug_vehicle = "B_Quadbike_01_F";
@@ -1410,21 +1349,11 @@ if (hasInterface) then {
 	// PLEASE DO NOT CHANGE THIS FOR THE TT VERSION, IT SHOULD BE AN EMPTY ARRAY!!!!
 	d_only_pilots_can_fly = [];
 	
-	//moved to d_init so it's also defined on server
-	/*
 	d_the_box = switch (d_own_side) do {
 		case "GUER": {"Box_IND_Wps_F"};
 		case "EAST": {"Box_East_Wps_F"};
-		case "WEST": {
-#ifndef __RHS__		
-		"B_CargoNet_01_ammo_F"
-		#else
-		"rhsusf_weapon_crate"
-		#endif
-		};
+		case "WEST": {"Box_NATO_Wps_F"};
 	};
-	*/
-	
 	d_the_base_box = switch (d_own_side) do {
 		case "GUER": {"I_supplyCrate_F"};//Box_IND_WpsSpecial_F
 		case "EAST": {"O_supplyCrate_F"};//Box_East_WpsSpecial_F
@@ -1539,7 +1468,7 @@ if (hasInterface) then {
 							__TRACE("Headless client found")
 							call compile preprocessFileLineNumbers "x_shc\x_setuphc.sqf";
 						} else {
-							call compile preprocessFileLineNumbers "x_client\x_setupplayer.sqf";							
+							call compile preprocessFileLineNumbers "x_client\x_setupplayer.sqf";
 						};
 						disableRemoteSensors true;
 					};

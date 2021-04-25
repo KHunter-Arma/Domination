@@ -10,15 +10,14 @@ private _npos = _pos;
 
 __TRACE_1("","_this")
 
-//private _grpskill = (d_skill_array # 0) + (random (d_skill_array # 1));
+private _grpskill = (d_skill_array # 0) + (random (d_skill_array # 1));
 
 _the_vecs resize _numvecs;
 private _nnvnum = _numvecs - 1;
 for "_n" from 0 to _nnvnum do {
 	__TRACE_1("","_npos")
-	// Hunter: Move this stuff to spawnvehicle function
-	//private _nnpos = _npos findEmptyPosition [0, 70, _vname];
-	//if !(_nnpos isEqualTo []) then {_npos = _nnpos};
+	private _nnpos = _npos findEmptyPosition [0, 70, _vname];
+	if !(_nnpos isEqualTo []) then {_npos = _nnpos};
 	private _vec_ar = [_npos, [floor random 360, _dir] select (_dir != -1.111), _vname, _grp] call d_fnc_spawnVehicle;
 	_vec_ar params ["_vec"];
 	_crews append (_vec_ar # 1);
@@ -29,7 +28,6 @@ for "_n" from 0 to _nnvnum do {
 	};
 	
 	_vec addEventHandler ["killed", {_this call d_fnc_handleDeadVec}];
-	
 	addToRemainsCollector [_vec];
 	
 	private _is_locked = false;
@@ -39,7 +37,7 @@ for "_n" from 0 to _nnvnum do {
 			_is_locked = true;
 		};
 	} else {
-		if (_vec isKindOf "Wheeled_APC" || {_vec isKindOf "Wheeled_APC_F" || {_vec isKindOf "Car"} || {_vec isKindOf "StaticWeapon"}}) then {
+		if (_vec isKindOf "Wheeled_APC" || {_vec isKindOf "Wheeled_APC_F" || {_vec isKindOf "Car"}}) then {
 			if (d_LockCars == 0) then {
 				_vec lock true;
 				_is_locked = true;
@@ -57,11 +55,5 @@ for "_n" from 0 to _nnvnum do {
 		_vec setVariable ["d_liftit", true, true];
 	};
 };
-//(leader _grp) setSkill _grpskill;
-{
-
-	_x call AI_setSkill;
-
-} foreach units _grp;
-
+(leader _grp) setSkill _grpskill;
 [_the_vecs, _crews]

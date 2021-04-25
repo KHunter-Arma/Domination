@@ -7,10 +7,6 @@ __TRACE("x_shcinit")
 
 if !(call d_fnc_checkSHC) exitWith {};
 
-//Hunter: added this because it's called twice by the server in d_init... 
-if (!isnil "shcinitDone") exitWith {};
-shcinitDone = true;
-
 d_delvecsmt = [];
 d_no_more_observers = false;
 d_create_new_paras = false;
@@ -39,13 +35,13 @@ if (d_MissionType != 2) then {
 		sleep 30;
 		__TRACE("spawn_x_shcinit_airai 30 secs over")
 		if (isMultiplayer && {isServer && {!isNil "HC_D_UNIT"}}) exitWith {};
-		sleep 120;
+		sleep 1200;
 		__TRACE("spawn_x_shcinit_airai 30 exec LAC")
-		["CAS"] execVM "x_shc\x_airai.sqf"; 
-		sleep 30;
-		["CAP"] execVM "x_shc\x_airai.sqf";
-		sleep 30;
-		["AH"] execVM "x_shc\x_airai.sqf";
+		["LAC"] execVM "x_shc\x_airai.sqf"; // LAC = Ligh Attack Chopper
+		sleep 1200;
+		["HAC"] execVM "x_shc\x_airai.sqf"; // HAC = Heavy Attack Chopper
+		sleep 1200;
+		["AP"] execVM "x_shc\x_airai.sqf"; // AP = Attack Plane
 	};
 };
 #endif

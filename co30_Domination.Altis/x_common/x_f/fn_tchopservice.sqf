@@ -7,15 +7,8 @@ if ("Helicopter" countType _this == 0) exitWith {
 	__TRACE("No heli inside trigger")
 	false
 };
-_heli = _this select 0;
-if (!isTouchingGround _heli) exitWith {
+if (!isTouchingGround (_this select 0)) exitWith {
 	__TRACE("Heli is not touching ground")
-	false
-};
-if ((speed _heli) > 5) exitWith {
-	false
-};
-if (isEngineOn _heli) exitWith {
 	false
 };
 __TRACE("true")

@@ -5,14 +5,11 @@
 sleep 60;
 
 while {true} do {
-	sleep (300 + random 240);
-	private _har = allMissionObjects "CraterLong";
-	sleep 4;
-	_har append allMissionObjects "Crater";
+	sleep (240 + random 240);
 	{
 		deleteVehicle _x;
 		sleep 0.212;
-	} forEach _har;
+	} forEach (allMissionObjects "CraterLong" + allMissionObjects "CraterLong_small");
 	sleep 0.1;
 	if (!isNil "d_airboxes" && {!(d_airboxes isEqualTo [])}) then {
 		{

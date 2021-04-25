@@ -11,19 +11,11 @@ private _man_type = format ["Soldier%1B", d_enemy_side_short];
 
 sleep 10.123;
 while {d_nr_observers > 0} do {
-	if (_e_ari_avail && {(call d_fnc_PlayersNumber) > 19}) then {
+	if (_e_ari_avail) then {
 		{
 			if (alive _x) then {
 				private _enemy = _x findNearestEnemy _x;
-				// Hunter: increased max distance from observer, changed personal knowledge to side knowledge and increased required knowledge
-				if (!isNull _enemy && {alive _enemy && {!captive _enemy} && {d_side_enemy knowsAbout _enemy > 3.5 && {!((vehicle _enemy) isKindOf "Air") && {_x distance2D _enemy < 1500}}}}) then {
-					
-					// Hunter: always fire 120mm HE shells...
-					_e_ari_avail = false;
-					_nextaritime = time + 120 + (random 240);
-					[getPosWorld _enemy, 1] spawn d_fnc_shootari;
-					
-					/*
+				if (!isNull _enemy && {alive _enemy && {_x knowsAbout _enemy >= 1.5 && {!((vehicle _enemy) isKindOf "Air") && {_x distance2D _enemy < 500}}}}) then {
 					if ((_enemy nearEntities [_man_type, 30]) isEqualTo []) then {
 						_e_ari_avail = false;
 						_nextaritime = time + 120 + (random 120);
@@ -35,12 +27,9 @@ while {d_nr_observers > 0} do {
 							[getPosWorld _enemy, 2] spawn d_fnc_shootari;
 						};
 					};
-					*/
 				};
 			};
 			sleep 2.321;
-			// Hunter: also exit here if arty already called by one observer so all of them don't spam at same time...
-			if (!_e_ari_avail) exitWith {};
 		} forEach (d_obs_array select {alive _x});
 	};
 	sleep 5.123;

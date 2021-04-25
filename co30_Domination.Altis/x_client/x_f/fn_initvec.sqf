@@ -15,8 +15,6 @@ _vec setVariable ["d_icon_type", getText (configFile >>"CfgVehicles">>typeOf _ve
 _vec setVariable ["d_icon_size", 28]; \
 if (count _car > 8) then {_vec setVariable ["d_lift_types", _car select 8]}
 
-#define __planeSet [_vec] call d_fnc_planeSet
-
 #define __chopset private _index = _car select 1;\
 _vec setVariable ["d_choppertype", _index];\
 _vec setVariable ["d_vec_type", "chopper"];\
@@ -109,7 +107,7 @@ if (_d_vec < 100) exitWith {
 #ifdef __TT__
 	if (d_player_side == blufor) then {
 #endif
-	_vec addAction [format ["<t color='#00FFFF' size='2.0'>%1</t>", localize "STR_DOM_MISSIONSTRING_262"], {_this call d_fnc_vecdialog}, _d_vec, -1, true, false, "", "(speed _target) < 2", 20];
+	_vec addAction [format ["<t color='#7F7F7F'>%1</t>", localize "STR_DOM_MISSIONSTRING_262"], {_this call d_fnc_vecdialog}, _d_vec, -1, false];
 #ifdef __TT__
 	} else {
 		_vec setVariable ["d_liftit", false];
@@ -179,8 +177,7 @@ if (_d_vec < 300) exitWith {
 		__vecname;
 	};
 	if (!alive _vec) exitWith {};
-	// Hunter: 200s contain rearm/repair/refuel trucks so we shouldn't empty ammo here...
-	//_vec setAmmoCargo 0;
+	_vec setAmmoCargo 0;
 #ifdef __TT__
 	__sidew;
 	__checkenterer;
@@ -228,7 +225,6 @@ if (_d_vec < 400) exitWith {
 #endif
 };
 
-//Hunter: reserve 400s for transport trucks that can carry ammo and has vehicle menu
 if (_d_vec < 500) exitWith {
 	private _car = [];
 #ifndef __TT__
@@ -253,7 +249,6 @@ if (_d_vec < 500) exitWith {
 	};
 	if (!alive _vec) exitWith {};
 	_vec setAmmoCargo 0;
-	_vec addAction [format ["<t color='#7F7F7F'>%1</t>", "Transport Menu"], {_this call d_fnc_vecdialog}, _d_vec, -1, false];
 #ifdef __TT__
 	__sidew;
 	__checkenterer;
@@ -315,7 +310,7 @@ if (_d_vec < 1100) exitWith {
 	};
 	if (!alive _vec) exitWith {};
 	if (d_player_side == opfor) then {
-		_vec addAction [format ["<t color='#00FFFF' size='2.0'>%1</t>", localize "STR_DOM_MISSIONSTRING_262"], {_this call d_fnc_vecdialog}, _d_vec, -1, true, false, "", "(speed _target) < 2", 20];
+		_vec addAction [format ["<t color='#7F7F7F'>%1</t>", localize "STR_DOM_MISSIONSTRING_262"], {_this call d_fnc_vecdialog}, _d_vec, -1, false];
 	};
 	_vec setVariable ["d_vec_type", "MHQ"];
 	_vec setAmmoCargo 0;
@@ -443,42 +438,6 @@ if (_d_vec < 1600) exitWith {
 #endif
 
 
-//ATVs
-if (_d_vec < 800) exitWith {};
-
-if (_d_vec < 1000) exitWith {
-	private _car = [];
-#ifndef __TT__
-	__pvecs;
-#else
-	__pvecss(blufor);
-#endif
-	if !(_car isEqualTo []) then {
-		missionNamespace setVariable [_car # 0, _vec];
-		if (!alive _vec) exitWith {};
-		__vecmarker;
-#ifndef __TT__
-		d_marker_vecs pushBack _vec;
-		_vec setVariable ["d_ism_vec", true];
-#else
-		if (d_player_side == blufor) then {
-			d_marker_vecs pushBack _vec;
-			_vec setVariable ["d_ism_vec", true];
-		};
-#endif
-		__vecname;
-	};
-	if (!alive _vec) exitWith {};
-	_vec setAmmoCargo 0;
-#ifdef __TT__
-	__sidew;
-	__checkenterer;
-	if (d_player_side != blufor) then {
-		_vec setVariable ["d_liftit", false];
-	};
-#endif
-};
-
 if (_d_vec < 4000) exitWith {
 	private _car = [];
 #ifndef __TT__
@@ -489,7 +448,6 @@ if (_d_vec < 4000) exitWith {
 	__TRACE_1("","_car")
 	if !(_car isEqualTo []) then {
 		if (!alive _vec) exitWith {};
-		_vec setAmmoCargo 0;
 		missionNamespace setVariable [_car # 0, _vec];
 		__chopname;
 		__chopmarker;
@@ -504,7 +462,7 @@ if (_d_vec < 4000) exitWith {
 #endif
 	};
 	if (!alive _vec) exitWith {};
-	if (_d_vec < 3100) then {__addchopm;} else {__planeSet;};	
+	__addchopm;
 	__chopset;
 #ifdef __TT__
 	__sidew;
@@ -530,7 +488,6 @@ if (_d_vec < 5000) exitWith {
 		};
 	};
 	if (!alive _vec) exitWith {};
-	_vec setAmmoCargo 0;
 	__addchopm;
 	__chopset;
 	__sidee;

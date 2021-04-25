@@ -11,8 +11,6 @@ disableSerialization;
 
 if (!d_pisadminp && {isMultiplayer}) exitWith {
 	[player, d_name_pl, 3] remoteExecCall ["d_fnc_KickPlayerBS", 2];
-	sleep 3;
-	endMission "LOSER";
 };
 
 params ["_selection"];

@@ -24,7 +24,7 @@ while {alive _chopper && {alive player && {player in _chopper}}} do {
 		
 		if (!(_chopper getVariable ["d_vec_attached", false]) && {_pos # 2 > 2.5 && {_pos # 2 < 11}}) then {
 			_liftobj = objNull;
-			private _nobjects = nearestObjects [_chopper, ["LandVehicle", "Air","Ship"], 50];
+			private _nobjects = nearestObjects [_chopper, ["LandVehicle", "Air"], 50];
 			if !(_nobjects isEqualTo []) then {
 				_nobjects params ["_dummy"];
 				if (_dummy == _chopper) then {
@@ -50,7 +50,7 @@ while {alive _chopper && {alive player && {player in _chopper}}} do {
 				if !(_liftobj getVariable ["d_MHQ_Deployed", false]) then {
 					if (_chopper inArea [_liftobj, 10, 10, 0, false]) then {
 						if (!_menu_lift_shown) then {
-							_id = _chopper addAction [format ["<t color='#AAD9EF'>%1</t>", localize "STR_DOM_MISSIONSTRING_250"], {_this call d_fnc_heli_action}, -1, 9999999];
+							_id = _chopper addAction [format ["<t color='#AAD9EF'>%1</t>", localize "STR_DOM_MISSIONSTRING_250"], {_this call d_fnc_heli_action}, -1, 100000];
 							_menu_lift_shown = true;
 						};
 					} else {
@@ -77,7 +77,7 @@ while {alive _chopper && {alive player && {player in _chopper}}} do {
 				_chopper setVariable ["d_vec_released", false];
 			} else {
 				if (_chopper getVariable ["d_vec_attached", false]) then {
-					_release_id = _chopper addAction [format ["<t color='#FF0000'>%1</t>", localize "STR_DOM_MISSIONSTRING_251"], {_this call d_fnc_heli_release}, -1, 9999999];
+					_release_id = _chopper addAction [format ["<t color='#FF0000'>%1</t>", localize "STR_DOM_MISSIONSTRING_251"], {_this call d_fnc_heli_release}, -1, 100000];
 					_chopper vehicleChat (localize "STR_DOM_MISSIONSTRING_252");
 					_chopper setVariable ["d_Attached_Vec", _liftobj];
 					
@@ -142,9 +142,6 @@ while {alive _chopper && {alive player && {player in _chopper}}} do {
 						} forEach _slcmp;
 					};
 					
-					_chopper enableRopeAttach true;
-					_liftobj enableRopeAttach true;			
-					
 					if (_slcmp_null) then {
 						{
 							_ropes pushBack (ropeCreate [_chopper, _slipos, _liftobj, _x, 20]);
@@ -164,54 +161,16 @@ while {alive _chopper && {alive player && {player in _chopper}}} do {
 					};
 					
 					_chopper setVariable ["d_ropes", _ropes, true];
-					
-					_ropeCount = count _ropes;
 
 					// ropeBreak event?
 					// player in chopper? What if switch to copilot happens... Needs check and handling, because only the pilot has the actions, etc
-					while {alive _chopper && {alive _liftobj} && {alive player} && {player in _chopper}} do {					
-						if (_chopper getVariable ["d_vec_released", false]) exitWith {};		
-						// Hunter: ok take that arma!... >:()
-						if ((speed _chopper) > 30) then {
-							if (isNull attachedTo _liftobj) then {
-								_liftobj attachto [_chopper,[0,0,-12]];
-								sleep 3;
-							};
-						} else {
-							if (!isNull attachedTo _liftobj) then {		
-								if (((getposatl _liftobj) select 2) < 3) then {
-									_liftPos = getposATL _liftobj;
-									{
-										ropeDestroy _x;
-									} forEach (_ropes select {!isNull _x});
-									detach _liftobj;
-									_liftPos set [2,0.1];
-									_liftobj setposatl _liftPos;
-									sleep 1;
-								} else {
-									// don't detach if ropes were broken by desync... keep using legacy system
-									if ((count (ropeAttachedObjects _chopper)) > 0) then {
-										_liftPos = getpos _liftobj;
-										detach _liftobj;					
-										_liftPos set [2, (((getposatl _chopper) select 2) - 15) max 3];
-										_liftobj setposatl _liftPos;
-										[_liftobj, velocity _chopper] remoteExecCall ["setVelocity", _liftobj, false];
-										sleep 3;
-									};
-								};	
-							};							
-						};									
+					while {alive _chopper && {alive _liftobj && {alive player && {_ropes findIf {alive _x} > -1 && {!(_chopper getVariable ["d_vec_released", false]) && {player in _chopper}}}}}} do {
 						sleep 0.312;
 					};
-					if (!isNull attachedTo _liftobj) then {
-						detach _liftobj;
-					};
+					
 					{
 						ropeDestroy _x;
 					} forEach (_ropes select {!isNull _x});
-					
-					[_liftobj, false] remoteExecCall ["d_fnc_l_v", _liftobj]; 											
-					
 					if (_oldmass > -1) then {
 						[_liftobj, _oldmass] remoteExecCall ["setMass"];
 						_chopper setVariable ["d_lobm", nil, true];

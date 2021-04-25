@@ -8,13 +8,6 @@ params ["_vec", "_grp"];
 createVehicleCrew _vec;
 private _crew = crew _vec;
 if (count _crew > 0) then {
-
-	if (Hz_customUnitLoadouts) then {
-		{
-			_x call AI_setupUnitCustomLoadout;
-		} foreach _crew;		
-	};		
-
 	private _grp_old = group (_crew # 0);
 	_crew joinSilent _grp;
 	deleteGroup _grp_old;
@@ -67,12 +60,9 @@ if (count _crew > 0) then {
 				(_this select 0) removeAllEventHandlers "Killed";
 			}];
 		};
-		/*
 		_x setUnitAbility ((d_skill_array # 0) + (random (d_skill_array # 1)));
 		_x setSkill ["aimingAccuracy", _subskill];
 		_x setSkill ["spotTime", _subskill];
-		*/
-		_x call AI_setSkill;
 	} forEach _crew;
 	if !(isNull (driver _vec)) then {(driver _vec) setRank "LIEUTENANT"};
 	if !(isNull (gunner _vec)) then {(gunner _vec) setRank "SERGEANT"};

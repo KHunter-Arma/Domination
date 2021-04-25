@@ -1,53 +1,19 @@
-// by Xeno, A.Renton, K.Hunter
+// by Xeno
 //#define __DEBUG__
 #define THIS_FILE "fn_ptakeweapon.sqf"
 #include "..\..\x_setup.sqf"
 
 if (isDedicated) exitWith {};
-if (player getVariable ["d_isinprison", false]) exitWith {};
 
 __TRACE_1("","_this")
 
 params ["_unit"];
 if (_unit != player) exitWith {};
-if (item_check_isInArsenal) exitWith {};
 
 private _item = _this select 2;
-private _container = param [1];
 
 if (d_without_nvg == 0 && {_item call d_fnc_isnvgoggles}) then {
 	_unit unlinkItem _item;
-};
-
-private _itemtype = ((_item call BIS_fnc_itemType) select 1);
-
-_item = [_item] call BIS_fnc_baseWeapon;
-_disalloweditemfound = false;
-
-if ([player, _item] call d_fnc_checkitem) then {
-	if (_itemtype == "Backpack") then {
-		{if !([player, _x] call d_fnc_checkitem) exitWith {_disalloweditemfound = true; debug_forbidden_item = _x; call d_fnc_forbidden_item}; false} count (backpackItems player);
-	} else {
-		if (_itemtype == "Vest") then {
-			{if !([player, _x] call d_fnc_checkitem) exitWith {_disalloweditemfound = true; debug_forbidden_item = _x; call d_fnc_forbidden_item}; false} count (vestItems player);
-		} else {
-			if (_itemtype == "Uniform") then {
-				{if !([player, _x] call d_fnc_checkitem) exitWith {_disalloweditemfound = true; debug_forbidden_item = _x; call d_fnc_forbidden_item}; false} count (uniformItems player);
-			};
-		};
-	};
-	call d_fnc_allowed_item;
-} else {
-	_disalloweditemfound = true;
-	debug_forbidden_item = _item; call d_fnc_forbidden_item;
-};
-
-if ((_itemtype == "Uniform") && {str _unit in d_badcompany}) then {
-	player remoteExecCall ["d_fnc_badco_uniform",-2,false];
-};
-
-if (!_disalloweditemfound) then {
-	call d_fnc_save_layoutgear;
 };
 
 if (!d_with_ranked) exitWith {};

@@ -47,14 +47,11 @@ private _rescued = false;
 private _mforceendtime = time + 2400;
 
 private _aiver_check_fnc = {
-	/*
-		if (!d_with_ai) then {
-			(str _this) in d_can_use_artillery
-		} else {
-			true
-		}
-	*/
-	true
+	if (!d_with_ai) then {
+		(str _this) in d_can_use_artillery
+	} else {
+		true
+	}
 };
 
 private _rescuer = objNull;

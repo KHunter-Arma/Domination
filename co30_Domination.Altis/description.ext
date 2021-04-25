@@ -10,9 +10,9 @@ allowFunctionsLog = 1;
 #endif
 #include "cfgfunctions.hpp"
 
-author = "Xeno, modified by A.Renton and K.Hunter";
-OnLoadName = "Bad Company Domination";
-onLoadMission = "v3.99BadCo";
+author = "Xeno";
+OnLoadName = "Domination!";
+onLoadMission = __D_VER_NAME__;
 onLoadIntroTime = false;
 onLoadMissionTime = false;
 disabledAI = 1;
@@ -22,7 +22,7 @@ debriefing = 1;
 showGPS = 1;
 showSquadRadar = 1;
 saving = 0;
-loadScreen = "pics\domls.jpg";
+loadScreen = "pics\domls.paa";
 overviewText = "$STR_DOM_MISSIONSTRING_1828";
 
 #ifdef __DEBUG__
@@ -36,18 +36,47 @@ class Header {
 	gameType = CTI;
 #endif
 	minPlayers = 1;
-	maxPlayers = 68;
+#ifdef __ALTIS__
+	maxPlayers = 46;
+#endif
+#ifdef __CUP_CHERNARUS__
+	maxPlayers = 41;
+#endif
+#ifdef __CUP_TAKISTAN__
+	maxPlayers = 41;
+#endif
+#ifdef __CUP_SARA__
+	maxPlayers = 41;
+#endif
+#ifdef __IFA3LITE__
+	maxPlayers = 41;
+#endif
+#ifdef __TANOA__
+	maxPlayers = 46;
+#endif
+#ifdef __TT__
+	maxPlayers = 56;
+#endif
+#ifdef __STRATIS__
+	maxPlayers = 46;
+#endif
+#ifdef __MALDEN__
+	maxPlayers = 41;
+#endif
+#ifdef __ROSCHE__
+	maxPlayers = 46;
+#endif
 };
 
-joinUnassigned = 1;
+joinUnassigned = false; // auto assign
 
 // 0 = Global, 1 = Side, 2 = Command, 3 = Group, 4 = Vehicle, 5 = Direct, 6 = System
 // {channelid, disablechat, disablevoice}
-disableChannels[] = {{0,true,true},{1,false,false},{2,true,true},{6,true,true}};
+disableChannels[] = {{0,false,true},{1,false,true},{6,true,true}};
 enableItemsDropping = 0;
 
 //(0 - default, options based; 1 forced on; 2 forced off)
-forceRotorLibSimulation = 0;
+forceRotorLibSimulation = 2;
 
 /*0 = None - None of the units are managed by the manager
 1 = All - All units are managed by the manager
@@ -81,18 +110,7 @@ class CfgRemoteExec {
 		//};
 		//class YourFunction2 { allowedTargets=1; }; // can target only clients
 		//class YourFunction3 { allowedTargets=2; }; // can target only the server
-		
-		// wtf... try to stop this stupid mission fail bug by disabling this function
-		class bis_fnc_endmission {mode = 0; allowedTargets = 1; jip = 0;};
 
-		// security risk...
-		class bis_fnc_debugconsoleexec {};	
-		
-		class d_fnc_initZeus {allowedTargets=2;};
-		class d_fnc_addScoreHandler {allowedTargets=2;};	
-		class d_fnc_badco_uniform {allowedTargets=1; jip = 0;};	
-		class d_fnc_setOwner {allowedTargets=2;};
-		class d_fnc_cargoPlaneDropMP {};
 		class d_fnc_delruin {};
 		class d_fnc_CreateDroppedBox {allowedTargets = 2;};
 		class d_fnc_create_boxNet {allowedTargets = 1;};
@@ -112,7 +130,7 @@ class CfgRemoteExec {
 		class d_fnc_DoKBMsg {allowedTargets = 2;};
 		class d_fnc_getsidemission {allowedTargets = 2;};
 		class d_fnc_createPlayerBike {allowedTargets = 2;};
-		class d_fnc_l_v {};
+		class d_fnc_l_v {allowedTargets = 2;};
 		class d_fnc_mhqdepls {allowedTargets = 2;};
 		class d_fnc_mhqdeplNet {allowedTargets = 1;};
 		class d_fnc_mhq_net {allowedTargets = 2;};
@@ -122,7 +140,7 @@ class CfgRemoteExec {
 		class d_fnc_at_serv {allowedTargets = 2;};
 		class d_fnc_d_sm_mar {allowedTargets = 2;};
 		class d_fnc_s_sm_up {allowedTargets = 2;};
-		class d_fnc_air_box {allowedTargets = 0;};
+		class d_fnc_air_box {allowedTargets = 1;};
 		class d_fnc_the_end {allowedTargets = 1;};
 		class d_fnc_doarti {allowedTargets = 1;};
 		class d_fnc_updatesupportrsc {allowedTargets = 1;};
@@ -218,16 +236,15 @@ class CfgRemoteExec {
 		class setCaptive {};
 		class switchMove {};
 		class setDir {};
-		class lock {};		
-		class selectLeader { allowedTargets=0; jip=0;};
+		class lock {};
+		class selectLeader {};
 		class join {};
 		class joinSilent {};
 		class setVelocity {};
-		class engineOn { allowedTargets=0; jip=0;};
+		class engineOn {};
 		class setMass {};
 		class addScore {allowedTargets = 2;};
 		class hideObjectGlobal {allowedTargets = 2;};
-		class hideObject {allowedTargets=0; jip=0; };
 		class enableSimulationGlobal {allowedTargets = 2;};
 		class deleteMarker {allowedTargets = 2;};
 		class setMarkerColor {allowedTargets = 2;};
@@ -242,7 +259,6 @@ class CfgRemoteExec {
 		class setOwner {allowedTargets = 2;};
 		class setSpeaker {allowedTargets = 1;};
 		class hint {allowedTargets = 1;};
-		class deleteVehicleCrew {allowedTargets=0; jip=0;};
 #ifdef __TT__
 		class deleteMarkerLocal {allowedTargets = 1;};
 		class systemChat {allowedTargets = 1;};
@@ -300,7 +316,7 @@ class Params {
 		values[] = {-1,2,4,6,8,10,12,14,16,18,21};
 		texts[] = {"$STR_DOM_MISSIONSTRING_969","2","4","6","8","10","12","14","16","18","21"};
 #endif
-		default = 34;
+		default = -1;
 	};
 
 	class d_TimeOfDay {
@@ -356,7 +372,7 @@ class Params {
 	class d_bonus_vec_type {
 		title = "$STR_DOM_MISSIONSTRING_1736";
 		values[] = {0,1,2,3};
-		default = 3;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_11","$STR_DOM_MISSIONSTRING_1737","$STR_DOM_MISSIONSTRING_1738","$STR_DOM_MISSIONSTRING_1739"};
 	};
 	
@@ -377,14 +393,14 @@ class Params {
 	class d_weather {
 		title = "$STR_DOM_MISSIONSTRING_1164";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
 	class d_enable_fog {
 		title = "$STR_DOM_MISSIONSTRING_1164a";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -403,7 +419,7 @@ class Params {
 		title = "$STR_DOM_MISSIONSTRING_1732";
 		values[] = {0,1};
 #ifdef __ALTIS__
-		default = 1;
+		default = 0;
 #endif
 #ifdef __STRATIS__
 		default = 0;
@@ -466,7 +482,7 @@ class Params {
 	class d_with_dynsim {
 		title = "$STR_DOM_MISSIONSTRING_1735";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -480,7 +496,7 @@ class Params {
 	class d_arsenal_mod {
 		title = "$STR_DOM_MISSIONSTRING_1829";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -494,14 +510,14 @@ class Params {
 	class d_with_base_sabotage {
 		title = "$STR_DOM_MISSIONSTRING_1837";
 		values[] = {0,1};
-		default = 0;
+		default = 1;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
 	class d_house_patrol {
 		title = "$STR_DOM_MISSIONSTRING_1868";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -515,14 +531,14 @@ class Params {
 	class d_InitialViewDistance {
 		title = "$STR_DOM_MISSIONSTRING_1025";
 		values[] = {1000,1500,2000,2500,3000,3500,4000,4500,5000};
-		default = 2000;
+		default = 1500;
 		texts[] = {"1000 m","1500 m","2000 m","2500 m","3000 m","3500 m","4000 m","4500 m","5000 m"};
 	};
 	
 	class d_MaxViewDistance {
 		title = "$STR_DOM_MISSIONSTRING_1035";
 		values[] = {2000,3000,4000,5000,6000,7000,8000,9000,10000};
-		default = 10000;
+		default = 5000;
 		texts[] = {"2000 m","3000 m","4000 m","5000 m","6000 m","7000 m","8000 m","9000 m","10000 m"};
 	};
 	
@@ -543,7 +559,7 @@ class Params {
 	class d_GrasAtStart {
 		title = "$STR_DOM_MISSIONSTRING_1174";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -585,7 +601,7 @@ class Params {
 	class xr_max_lives {
 		title = "$STR_DOM_MISSIONSTRING_1009";
 		values[] = {1,5,10,20,30,40,50,-1};
-		default = -1;
+		default = 30;
 		texts[] = {"1","5","10","20","30","40","50","$STR_DOM_MISSIONSTRING_1010"};
 	};
 	
@@ -599,7 +615,7 @@ class Params {
 	class xr_respawn_available_after {
 		title = "$STR_DOM_MISSIONSTRING_1019";
 		values[] = {5,30,60,90,120,180,240,300,600};
-		default = 20;
+		default = 5;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1020a","$STR_DOM_MISSIONSTRING_1020","$STR_DOM_MISSIONSTRING_1012","$STR_DOM_MISSIONSTRING_1021","$STR_DOM_MISSIONSTRING_1013","$STR_DOM_MISSIONSTRING_1014","$STR_DOM_MISSIONSTRING_1015","$STR_DOM_MISSIONSTRING_1016","$STR_DOM_MISSIONSTRING_1017"};
 	};
 	
@@ -648,7 +664,7 @@ class Params {
 	class d_AutoKickTime {
 		title = "$STR_DOM_MISSIONSTRING_1107";
 		values[] = {0,60, 300, 600, 1800,3600};
-		default = 0;
+		default = 1800;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1077","$STR_DOM_MISSIONSTRING_1106","$STR_DOM_MISSIONSTRING_1078","$STR_DOM_MISSIONSTRING_1079","$STR_DOM_MISSIONSTRING_1080","$STR_DOM_MISSIONSTRING_1081"};
 	};
 
@@ -676,7 +692,7 @@ class Params {
 	class d_vec_at_farp {
 		title = "$STR_DOM_MISSIONSTRING_1832";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 
@@ -690,14 +706,14 @@ class Params {
 	class d_enablefatigue {
 		title = "$STR_DOM_MISSIONSTRING_1568";
 		values[] = {0,1};
-		default = 0;
+		default = 1;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
 	class d_enablesway {
 		title = "$STR_DOM_MISSIONSTRING_1583";
 		values[] = {0,1};
-		default = 0;
+		default = 1;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -762,15 +778,15 @@ class Params {
 	class d_MHQDisableNearMT {
 		title = "$STR_DOM_MISSIONSTRING_1057";
 		values[] = {0,500,700,900,1000,2000};
-		default = 0;
+		default = 500;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1058","500 m","700 m","900 m","1000 m","2000 m"};
 	};
 	
 	class d_NoMHQTeleEnemyNear {
 		title = "$STR_DOM_MISSIONSTRING_1062";
-		values[] = {0,50,100,150,200,500};
-		default = 200;
-		texts[] = {"$STR_DOM_MISSIONSTRING_1063","50 m","100 m","150 m","200 m","500 m"};
+		values[] = {0,50,100,200,500};
+		default = 50;
+		texts[] = {"$STR_DOM_MISSIONSTRING_1063","50 m","100 m","200 m","500 m"};
 	};
 	
 	class d_with_mhq_camo {
@@ -790,7 +806,7 @@ class Params {
 	class d_respawnatsql {
 		title = "$STR_DOM_MISSIONSTRING_1705";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -818,14 +834,14 @@ class Params {
 	class d_sub_kill_points {
 		title = "$STR_DOM_MISSIONSTRING_1113";
 		values[] = {0,1,2,3,4,5,6,7,8,9,10};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1007","$STR_DOM_MISSIONSTRING_1114","$STR_DOM_MISSIONSTRING_1115","$STR_DOM_MISSIONSTRING_1116","$STR_DOM_MISSIONSTRING_1117","$STR_DOM_MISSIONSTRING_1118","$STR_DOM_MISSIONSTRING_1119","$STR_DOM_MISSIONSTRING_1120","$STR_DOM_MISSIONSTRING_1121","$STR_DOM_MISSIONSTRING_1122","$STR_DOM_MISSIONSTRING_1123"};
 	};
 
 	class d_pilots_only {
 		title = "$STR_DOM_MISSIONSTRING_1099";
 		values[] = {0,1};
-		default = 0;
+		default = 1;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -845,9 +861,9 @@ class Params {
 
 	class d_EnemySkill {
 		title = "$STR_DOM_MISSIONSTRING_1124";
-		values[] = {2};
+		values[] = {1,2,3};
 		default = 2;
-		texts[] = {"Custom"};
+		texts[] = {"$STR_DOM_MISSIONSTRING_399","$STR_DOM_MISSIONSTRING_11","$STR_DOM_MISSIONSTRING_400"};
 	};
 
 	class d_WithIsleDefense {
@@ -867,7 +883,7 @@ class Params {
 	class d_ParaAtBase {
 		title = "$STR_DOM_MISSIONSTRING_1098";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -881,7 +897,7 @@ class Params {
 	class d_WithJumpFlags {
 		title = "$STR_DOM_MISSIONSTRING_1097";
 		values[] = {0,1};
-		default = 0;
+		default = 1;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -902,28 +918,28 @@ class Params {
 	class d_LockArmored {
 		title = "$STR_DOM_MISSIONSTRING_1082";
 		values[] = {0,1};
-		default = 0;
+		default = 1;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 
 	class d_LockCars {
 		title = "$STR_DOM_MISSIONSTRING_1083";
 		values[] = {0,1};
-		default = 0;
+		default = 1;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 
 	class d_LockAir {
 		title = "$STR_DOM_MISSIONSTRING_1084";
 		values[] = {0,1};
-		default = 0;
+		default = 1;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
 	class d_enemy_vecs_lift {
 		title = "$STR_DOM_MISSIONSTRING_1830";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
@@ -937,7 +953,7 @@ class Params {
 	class d_maxnum_tks_forkick {
 		title = "$STR_DOM_MISSIONSTRING_1197";
 		values[] = {1,3,5,10,20,30,40,1000000};
-		default = 3;
+		default = 10;
 		texts[] = {"1","3","5","10","20","30","40","$STR_DOM_MISSIONSTRING_1198"};
 	};
 	
@@ -951,14 +967,14 @@ class Params {
 	class d_no_teamkill {
 		title = "$STR_DOM_MISSIONSTRING_1208";
 		values[] = {0,1};
-		default = 1;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1006","$STR_DOM_MISSIONSTRING_1007"};
 	};
 	
 	class d_sub_tk_points {
 		title = "$STR_DOM_MISSIONSTRING_1194";
 		values[] = {0,1,5,10,20,30,50};
-		default = 50;
+		default = 10;
 		texts[] = {"0","1","5","10","20","30","50"};
 	};
 	
@@ -993,7 +1009,7 @@ class Params {
 	class d_drop_radius {
 		title = "$STR_DOM_MISSIONSTRING_1186";
 		values[] = {0,10,30,50,100};
-		default = 100;
+		default = 0;
 		texts[] = {"$STR_DOM_MISSIONSTRING_1187","10 m","30 m","50 m","100 m"};
 	};
 	
@@ -1409,62 +1425,6 @@ class CfgTaskEnhancements {
    3dDrawDist   = 2000;        //3d marker draw distance (default: 2000)
    share        = 0;            //0: do not count assigned players (default), 1: count how many players have the task assigned
    propagate    = 0;            //0: do not propagate (default), 1: propagate shared tasks to subordinates
-};
-
-
-class CfgMusic
-{
- tracks[]={};
-
- class d_intro_music
- {
-  name = "d_intro_music";
-  sound[] = {"sounds\intro.ogg", db+10, 1.0};
- };
- 
-};
-
-class CfgDebriefing
-{  
-	class END1
-	{
-		title = "Mission Completed";
-		subtitle = "";
-		description = "";
-		pictureBackground = "";
-		picture = "";
-		pictureColor[] = {0.0,0.3,0.6,1};
-	};
-	
-	class reservedSlot
-	{
-		title = "Reserved Slot";
-		subtitle = "";
-		description = "The slot you have chosen is reserved for Bad Company members. Pick a non-reserved slot from the lobby to play.";
-		pictureBackground = "";
-		picture = "";
-		pictureColor[] = {0.6,0.1,0.2,1};
-	};
-	
-	class tagProblem
-	{
-		title = "Problem with Clan Tag";
-		subtitle = "";
-		description = "There is a problem with your clan tag. Please make sure you have followed the instructions on how to add your clan tag to your profile and that your name is spelled correctly. If you did everything correctly and it's still not working, please contact recruitment staff for support. You will not be able to use reserved slots until the problem is resolved.";
-		pictureBackground = "";
-		picture = "";
-		pictureColor[] = {0.6,0.1,0.2,1};
-	};
-	
-	class zeusRestriction
-	{
-		title = "Unauthorized Slot";
-		subtitle = "";
-		description = "You are not authorized to use this slot. Please select another slot in the lobby!";
-		pictureBackground = "";
-		picture = "";
-		pictureColor[] = {0.6,0.1,0.2,1};
-	};
 };
 
 #include "CfgVehicles.hpp"

@@ -250,18 +250,6 @@ if (d_with_ranked || {d_database_found}) then {
 
 // available in non ranked versions too, removes nvg if without nvg is activated to avoid cheating
 player addEventhandler ["Take", {_this call d_fnc_ptakeweapon}];
-player addEventhandler ["Put", {_this call d_fnc_pputweapon}];
-player addEventhandler ["Reloaded", {call d_fnc_save_layoutgear}];
-
-if (!((str player) in ["d_admin", "d_zeus"])) then {
-	removeAllWeapons player;
-	removeallItems player;
-	removeAllAssignedItems player;
-	removeVest player;
-	removeBackpack player;
-	removeHeadgear player;
-	removeGoggles player;
-};
 
 if (d_MissionType != 2) then {
 	if !(d_resolved_targets isEqualTo []) then {
@@ -276,7 +264,7 @@ if (d_MissionType != 2) then {
 			if (!isNil "_res" && {_res >= 0 && {_res < _codtn}}) then {
 				private _tgt_ar = d_target_names # _res;
 				private _cur_tgt_name = _tgt_ar # 1;
-				[player, format ["d_obj%1", _res + 2], [format [localize "STR_DOM_MISSIONSTRING_202", _cur_tgt_name], format [localize "STR_DOM_MISSIONSTRING_203", _cur_tgt_name], format [localize "STR_DOM_MISSIONSTRING_203", _cur_tgt_name]], _tgt_ar # 0, "Succeeded", 2, false, "Attack", false] call BIS_fnc_taskCreate;
+				[true, format ["d_obj%1", _res + 2], [format [localize "STR_DOM_MISSIONSTRING_202", _cur_tgt_name], format [localize "STR_DOM_MISSIONSTRING_203", _cur_tgt_name], format [localize "STR_DOM_MISSIONSTRING_203", _cur_tgt_name]], _tgt_ar # 0, "Succeeded", 2, false, "Attack", false] call BIS_fnc_taskCreate;
 			};
 		};
 	};
@@ -286,7 +274,7 @@ if (d_MissionType != 2) then {
 		d_current_seize = d_cur_tgt_name;
 		"d_dummy_marker" setMarkerPosLocal d_cur_tgt_pos;
 		private _tname = format ["d_obj%1", d_current_target_index + 2];
-		[player, _tname, [format [localize "STR_DOM_MISSIONSTRING_202", d_current_seize], format [localize "STR_DOM_MISSIONSTRING_203", d_current_seize], format [localize "STR_DOM_MISSIONSTRING_203", d_current_seize]], d_cur_tgt_pos, "AUTOASSIGNED", 2, false, "Attack", false] call BIS_fnc_taskCreate;
+		[true, _tname, [format [localize "STR_DOM_MISSIONSTRING_202", d_current_seize], format [localize "STR_DOM_MISSIONSTRING_203", d_current_seize], format [localize "STR_DOM_MISSIONSTRING_203", d_current_seize]], d_cur_tgt_pos, true, 2, false, "Attack", false] call BIS_fnc_taskCreate;
 		d_current_task = _tname;
 		if (!isNil "d_obj00_task") then {
 			d_obj00_task = nil;
@@ -344,8 +332,7 @@ if (d_player_side == blufor) then {
 	}];
 };
 #endif
-//player addEventHandler ["respawn", {_this call d_fnc_prespawned}];
-player addEventHandler ["respawn", {_this spawn d_fnc_prespawned}];
+player addEventHandler ["respawn", {_this call d_fnc_prespawned}];
 
 player setVariable ["d_currentvisionmode", 0];
 
@@ -414,7 +401,7 @@ d_all_ammoloads = (allMissionObjects "HeliH") select {(str _x) select [0, 10] ==
 	
 	addMissionEventHandler ["Draw3D", {call d_fnc_draw3dstuff}];
 	
-	//"d_fpsresource" cutRsc ["d_fpsresource", "PLAIN"];
+	"d_fpsresource" cutRsc ["d_fpsresource", "PLAIN"];
 	if (d_player_can_call_arti > 0 || {d_player_can_call_drop > 0 || {d_string_player in d_can_call_cas || {!d_no_ai}}}) then {
 		"d_RscSupportL" cutRsc ["d_RscSupportL", "PLAIN"];
 	};
@@ -426,20 +413,6 @@ d_all_ammoloads = (allMissionObjects "HeliH") select {(str _x) select [0, 10] ==
 		d_points_needed = d_points_needed_db;
 	};
 	0 spawn d_fnc_playerrankloop;
-	
-	if (str player == "d_zeus") then {
-		waitUntil {sleep 1; !isNil "zeusers"};
-		if !((getPlayerUID player) in zeusers) exitWith {};
-		xr_phd_invulnerable = true;
-		hint "Initializing...";
-		[] remoteExec ["d_fnc_initZeus", 2, false];
-		player setCaptive true;
-		sleep 9;
-		hintSilent "";
-		openCuratorInterface;
-		["Warning", "<t align='center' size='2.5' color='#ff0000'>Remember<br></br>the<br></br>rules</t>", 12] call BIS_fnc_curatorHint;
-	};
-	
 };
 
 diag_log ["Internal D Version: 3.99k"];
@@ -487,7 +460,7 @@ if (!d_no_ai) then {
 		d_player_can_call_cas = 1;
 	};
 };
-//player setUnitTrait ["explosiveSpecialist", true];
+player setUnitTrait ["explosiveSpecialist", true];
 
 private _respawn_marker = "";
 private _base_spawn_m = "base_spawn_1";
@@ -585,15 +558,15 @@ if (player getUnitTrait "Medic") then {
 d_x_loop_end = false;
 if (d_WithMHQTeleport == 0) then {
 #ifndef __TT__
-	d_FLAG_BASE addAction [format ["<t color='#ff0000' size='2.0'>%1</t>", localize "STR_DOM_MISSIONSTRING_533"], {_this call d_fnc_teleportx},[],99];
+	d_FLAG_BASE addAction [format ["<t color='#7F7F7F'>%1</t>", localize "STR_DOM_MISSIONSTRING_533"], {_this call d_fnc_teleportx}];
 #else
 	private _base_flag = [d_EFLAG_BASE, d_WFLAG_BASE] select (d_player_side == blufor);
-	_base_flag addAction [format ["<t color='#ff0000' size='2.0'>%1</t>", localize "STR_DOM_MISSIONSTRING_533"], {_this call d_fnc_teleportx},[],99];
+	_base_flag addAction [format ["<t color='#7F7F7F'>%1</t>", localize "STR_DOM_MISSIONSTRING_533"], {_this call d_fnc_teleportx}];
 #endif
 };
 
 #ifndef __TT__
-d_FLAG_BASE addaction [format ["<t color='#e5e500'>%1</t>", localize "STR_DOM_MISSIONSTRING_1745"], {_this call d_fnc_playerspectate},[],-10];
+d_FLAG_BASE addaction [format ["<t color='#3F3F3F'>%1</t>", localize "STR_DOM_MISSIONSTRING_1745"], {_this call d_fnc_playerspectate}];
 #endif
 
 if (d_ParaAtBase == 1) then {
@@ -617,8 +590,10 @@ if (!d_with_ace) then {
 		waitUntil {sleep 0.232;!d_still_in_intro};
 
 		d_phudraw3d = -1;
-		d_pnhudgroupcolor = [0, 0.85, 0, 0.9];
-		d_pnhudothercolor = [0.2, 0.2, 0.7, 0.9];
+		//d_pnhudgroupcolor = [0.96, 1, 0, 0.7];
+		//d_pnhudothercolor = [0.86, 0.89, 0.1, 0.7];
+		d_pnhudgroupcolor = [0, 1, 0, 0.9];
+		d_pnhudothercolor = [1, 1, 1, 0.8];
 		d_pnhuddeadcolor = [0, 0, 0, 0];
 
 		d_pnhuddo2_prevCT = objNull;
@@ -666,10 +641,9 @@ d_map_ameh = addMissionEventHandler ["Map", {
 	d_map_ameh = nil;
 }];
 
-//Hunter: disable these (for now?)
-//0 spawn d_fnc_waitforgps;
-//0 spawn d_fnc_waitartycompmap;
-//0 spawn d_fnc_waitforuavmap;
+0 spawn d_fnc_waitforgps;
+0 spawn d_fnc_waitartycompmap;
+0 spawn d_fnc_waitforuavmap;
 
 if (isNil "d_the_carrier") then {
 	d_the_carrier = [0,0,0];
@@ -786,11 +760,6 @@ player addEventhandler ["getInMan", {
 		d_player_in_vec = false;
 	};
 }];
-player addEventHandler ["SeatSwitchedMan", {
-	
-	_this call d_fnc_checkswitchseat;
-	
-}];
 player addEventhandler ["getOutMan", {
 	d_player_in_vec = false;
 	d_vec_role_pl = [];
@@ -829,9 +798,8 @@ if (d_player_side == opfor && {!(markerPos "d_runwaymarker_o" isEqualTo [0,0,0])
 };
 #endif
 
-//player call d_fnc_removenvgoggles_fak;
+player call d_fnc_removenvgoggles_fak;
 #ifndef __IFA3LITE__
-/*
 if (d_without_nvg == 1 && {!(player call d_fnc_hasnvgoggles)}) then {
 	player linkItem (switch (d_player_side) do {
 		case opfor: {"NVGoggles_OPFOR"};
@@ -855,12 +823,9 @@ if (d_string_player in d_can_use_artillery || {d_string_player in d_can_mark_art
 		player addWeapon "Binocular";
 	};
 };
-*/
 if !("ItemGPS" in (assignedItems player)) then {
 	player linkItem "ItemGPS";
 };
-player linkItem "ItemMap";
-
 #else
 if !("ItemRadio" in assigneditems player) then {player linkItem "ItemRadio"};
 #endif
@@ -908,10 +873,8 @@ if (!d_no_ai || {d_string_player in d_can_call_cas}) then {
 #endif
 };
 
-player addEventhandler["InventoryClosed", {_this call d_fnc_inventoryclosed}];
 player addEventhandler["InventoryOpened", {_this call d_fnc_inventoryopened}];
 
-/*
 if (!d_with_ace || {d_with_ranked}) then {
 	[missionNamespace, "arsenalOpened", {
 		_this call d_fnc_arsenalopened;
@@ -929,7 +892,6 @@ if (!d_with_ace || {d_with_ranked}) then {
 		_this call d_fnc_arsenalopened;
 	}] call CBA_fnc_addEventHandler;
 };
-*/
 
 player addEventhandler ["HandleRating", {
 	if ((_this select 1) < 0) then {0} else {_this select 1}
@@ -970,7 +932,7 @@ player addEventhandler ["WeaponAssembled", {
 	};
 } forEach vehicles;
 
-//["Preload"] call bis_fnc_arsenal;
+["Preload"] call bis_fnc_arsenal;
 
 if (d_arsenal_mod == 0) then {
 	if (d_ifa3lite) then {
@@ -992,7 +954,6 @@ if (d_arsenal_mod == 0) then {
 	d_arsenal_mod_prestrings = nil;
 };
 
-/*
 for "_i" from 0 to (count d_remove_from_arsenal - 1) do {
 	private _proceed = true;
 	if (d_with_ranked && {!(_i in [5, 22, 23, 26])}) then {
@@ -1043,7 +1004,6 @@ for "_i" from 0 to (count d_remove_from_arsenal - 1) do {
 		bis_fnc_arsenal_data set [_i, _badar];
 	};
 };
-*/
 
 if (d_with_ranked) then {
 	0 spawn d_fnc_weaponcargo_ranked;
@@ -1103,22 +1063,5 @@ if (isMultiplayer) then {
 } else {
 	{_x enableSimulation false} forEach (switchableUnits select {_x != player});
 };
-
-// Hunter: Custom score handling
-player remoteExecCall ["d_fnc_addScoreHandler",2,false];
-player addEventHandler ["Respawn",{
-	params ["_unit", "_corpse"];
-	_unit remoteExecCall ["d_fnc_addScoreHandler",2,false];
-}];
-
-player addEventHandler ["Respawn",{
-	params ["_unit", "_corpse"];
-	_unit spawn {
-		sleep 1;
-		if ((str _this) in d_badcompany) then {
-			_this remoteExecCall ["d_fnc_badco_uniform",-2,false];		
-		};
-	};	
-}];
 
 diag_log [diag_frameno, diag_ticktime, time, "Dom x_setupplayer.sqf processed"];

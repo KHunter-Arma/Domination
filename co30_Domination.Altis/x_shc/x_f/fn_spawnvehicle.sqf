@@ -40,17 +40,16 @@ private "_veh";
 private _sim = toUpper getText(configFile>>"CfgVehicles">>_typev1>>"simulation");
 __TRACE_1("","_sim")
 
-//if (_sim in ["AIRPLANE", "HELICOPTER", "AIRPLANEX", "HELICOPTERX", "HELICOPTERRTD"]) then {
-if (_typev1 isKindOf "Air") then {
+if (_sim in ["AIRPLANE", "HELICOPTER", "AIRPLANEX", "HELICOPTERX", "HELICOPTERRTD"]) then {
 	if (count _posv1 == 2) then {_posv1 pushBack 0};
-	
+	_posv1 set [2, (_posv1 # 2) max 300];
+
 	_veh = createVehicle [_typev1, _posv1, [], 0, "FLY"];
 
 	_veh setDir _azi;
 	_veh setPos _posv1;
 	
-	//if (_sim == "AIRPLANEX" || {_sim == "AIRPLANE"}) then {
-	if (_typev1 isKindOf "Plane") then {
+	if (_sim == "AIRPLANEX" || {_sim == "AIRPLANE"}) then {
 		private _v = velocity _veh;
 		_veh setVelocity [
 			(_v # 1) * sin _azi - (_v # 0) * cos _azi,
@@ -59,47 +58,19 @@ if (_typev1 isKindOf "Air") then {
 		];
 	};
 } else {
-	if ((!(_typev1 iskindof "Ship")) && {surfaceIsWater _posv1}) then {
-		private _nnpos = _posv1 findEmptyPosition [0, 1000, _typev1];
-		if !(_nnpos isEqualTo []) then {_posv1 = _nnpos};
-	};
-	//Hunter: "0" radius causes vics to spawn inside objects and blow up...
-	_veh = createVehicle [_typev1, _posv1, [], 200, "NONE"];
-	// Hunter: anti-bad driving (does not cover flipping...)
-	_veh addEventHandler ["HandleDamage",{
-		_return = _this select 2;
-		_source = _this select 3;
-		_unit = _this select 0;		
-		if (((_this select 4) == "") && {(isnull _source) || {((side _source) getFriend (side _unit)) >= 0.6}}) then {
-			_return = 0;
-		};
-		_return 
-	}];
+	_veh = createVehicle [_typev1, _posv1, [], 0, "NONE"];
 	/*private _svec = sizeOf _typev1;
 	private _isFlat = (ASLToAGL getPosASL _veh) isFlatEmpty [_svec / 2, -1, 0.7, _svec, 0, false, _veh]; // 0
 	if (count _isFlat > 1) then {
 		_posv1 = _isFlat;
 		_posv1 set [2, 0];
 	};*/
-	//Hunter: make this	default
-	//if (random 100 > 50) then {_veh allowCrewInImmobile true};
-	_veh allowCrewInImmobile true;
+	if (random 100 > 50) then {_veh allowCrewInImmobile true};
 	_veh setDir _azi;
-	//_veh setVehiclePosition [_veh, [], 0, "NONE"];
+	_veh setVehiclePosition [_veh, [], 0, "NONE"];
 };
 
 private _crew = [_veh, _grp] call d_fnc_spawnCrew;
-{
-	_x addEventHandler ["HandleDamage",{
-		_return = _this select 2;
-		_source = _this select 3;
-		_unit = _this select 0;		
-		if (((_this select 4) == "") && {(isnull _source) || {((side _source) getFriend (side _unit)) >= 0.6}}) then {
-			_return = 0;
-		};
-		_return 
-	}];
-} foreach _crew;
 _grp addVehicle _veh;
 _grp deleteGroupWhenEmpty true;
 

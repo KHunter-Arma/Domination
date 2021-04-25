@@ -2,16 +2,11 @@
 //#define __DEBUG__
 #define THIS_FILE "fn_playerdisconnected.sqf"
 #include "..\..\x_setup.sqf"
+if (!isServer || {!d_database_found}) exitWith{};
 
 params ["", "_uid", "_name"];
 
 if (_name == "__SERVER__" || {_name == "headlessclient"}) exitWith {};
-
-// Hunter: everything here is connected to the DB. It's not needed and it doesn't even have a DB-found check! 
-// just log here when a player leaves to help debugging server issues.
-diag_log ("Player " + _name + " left the game.");
-
-/*
 
 private _unit = objNull;
 (allPlayers - entities "HeadlessClient_F") findIf {
@@ -36,7 +31,7 @@ private _ps = if (!isNull _unit) then {getPlayerScores _unit} else {_pa # 12};
 private _scpl = if (!isNull _unit) then {score _unit} else {-1};
 __TRACE_1("","getPlayerScores _unit")
 __TRACE_1("","_ps")
-
+if (_ps isEqualTo []) exitWith {};
 //  [infantry kills, soft vehicle kills, armor kills, air kills, deaths, total score]
 private _usc = _uid + "_scores";
 private _t_ps = d_player_store getVariable [_usc, [0, 0, 0, 0, 0, 0]];
@@ -64,5 +59,3 @@ __TRACE_1("","_playtime")
 "extdb3" callExtension format ["1:dom:updatePlayer:%1:%2:%3:%4:%5:%6:%7:%8", _infkills, _softveckills, _armorkills, _airkills, _deaths, _totalscore, _playtime, _uid];
 
 __TRACE("extDB3 called")
-
-*/

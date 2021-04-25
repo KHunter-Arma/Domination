@@ -126,7 +126,6 @@ player setVariable ["xr_plno3dd", nil, true];
 d_last_beam_target = d_beam_target;
 d_beam_target = "";
 player setDamage 0;
-//player remoteExec ["d_fnc_prison_check", 2];
 __TRACE("MapClickRespawn, black in")
 "xr_revtxt" cutText [localize "STR_DOM_MISSIONSTRING_918", "BLACK IN", 6];
 if (xr_max_lives != -1) then {
@@ -137,14 +136,6 @@ if (xr_max_lives != -1) then {
 		};
 		if (d_with_ai && {alive player && {!(player getVariable ["xr_pluncon", false])}}) then {[] spawn d_fnc_moveai};
 	};
-};
-
-//Hunter: Prevent respawn with "default" gear... couldn't figure out why it's normally bugged...
-[] spawn {
-
-	sleep 2;
-	call d_fnc_retrieve_respawngear;
-
 };
 
 0 spawn {

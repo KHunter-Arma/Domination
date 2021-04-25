@@ -3,57 +3,57 @@
 <Package name="Domination">
 <Container name="Mission">
 <Key ID="STR_DOM_MISSIONSTRING_0">
-<English>Wreck Repair</English>
-<Spanish>Reparación de Chatarra</Spanish>
-<Portuguese>Chatarra Vossa base.</Portuguese>
+<English>Wreck Repair Point</English>
+<Spanish>Punto de Reparación de Chatarra</Spanish>
+<Portuguese>Ponto de Reparo de Chatarra Vossa base.</Portuguese>
 <Korean>잔해 수리</Korean>
-<Japanese>Wreck Repair</Japanese>
-<Original>Wreck Repair</Original>
+<Japanese>Wreck Repair Point</Japanese>
+<Original>Wreck Repair Point</Original>
 <Russian>Ремонт Призовой техники</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_2">
-<English>Airplane Service</English>
-<Spanish>Airplane Service</Spanish>
-<Portuguese>Airplane Service</Portuguese>
+<English>Plane Service</English>
+<Spanish>Plane Service</Spanish>
+<Portuguese>Plane Service</Portuguese>
 <Korean>Jet Service 고정익 정비</Korean>
 <Japanese>Jet Service</Japanese>
-<Original>Airplane Service</Original>
+<Original>Plane Service</Original>
 <Russian>Ремонт Самолетов</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_3">
-<English>Helicopter Service</English>
-<Spanish>Servicio de Helicópteros</Spanish>
-<Portuguese>Helicopter Serviço</Portuguese>
+<English>Chopper/UAV Service</English>
+<Spanish>Servicio de Helicópteros/UAV</Spanish>
+<Portuguese>Chopper/UAV Serviço</Portuguese>
 <Korean>회전익 무인기 정비</Korean>
-<Japanese>Helicopter Service</Japanese>
-<Original>Helicopter Service</Original>
-<Russian>Ремонт вертолетов</Russian>
+<Japanese>Chopper/UAV Service</Japanese>
+<Original>Chopper/UAV Service</Original>
+<Russian>Ремонт вертолетов\БПЛА</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_4">
-<English>Vehicle Service</English>
-<Spanish>Servicio de Vehículos</Spanish>
-<Portuguese>Veículo Serviço</Portuguese>
+<English>Vehicle/UAV Service</English>
+<Spanish>Servicio/UAV de Vehículos</Spanish>
+<Portuguese>Veículo/UAV Serviço</Portuguese>
 <Korean>차량 정비</Korean>
-<Japanese>Vehicle Service</Japanese>
-<Original>Vehicle Service</Original>
-<Russian>Ремонт техники</Russian>
+<Japanese>Vehicle/UAV Service</Japanese>
+<Original>Vehicle/UAV Service</Original>
+<Russian>Ремонт техники и БПА</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_5">
-<English>Ammobox Loading Point</English>
-<Spanish>Ammobox Loading Point</Spanish>
-<Portuguese>Ammobox Loading Point</Portuguese>
-<Korean>Ammobox Loading Point</Korean>
-<Japanese>Ammobox Loading Point</Japanese>
-<Original>Ammobox Loading Point</Original>
-<Russian>Ammobox Loading Point</Russian>
+<English>Ammo Point</English>
+<Spanish>Punto de Municiones</Spanish>
+<Portuguese>Ponto de Munições</Portuguese>
+<Korean>탄약상자 적재소</Korean>
+<Japanese>Ammo Point</Japanese>
+<Original>Ammo Point</Original>
+<Russian>Загрузка ящика-арсенала</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_6">
-<English>Teleporter</English>
-<Spanish>TELETRASPORTAR</Spanish>
-<Portuguese>TELETRASPORTAR</Portuguese>
+<English>Teleporter / Parajump</English>
+<Spanish>TELETRASPORTAR / SALTO EN PARACAIDAS</Spanish>
+<Portuguese>TELETRASPORTAR / SALTO EN PARACAIDAS</Portuguese>
 <Korean>공수낙하</Korean>
-<Japanese>Teleporter</Japanese>
-<Original>Teleporter</Original>
+<Japanese>Teleporter / Parajump</Japanese>
+<Original>Teleporter / Parajump</Original>
 <Russian>Телепорт</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_7">
@@ -1534,7 +1534,7 @@
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_262">
 <English>MHQ Menu</English>
-<Spanish>Menú MHQ</Spanish>
+<Spanish>=Menú MHQ=</Spanish>
 <Portuguese>MHQ Carta</Portuguese>
 <Korean>MHQ 메뉴</Korean>
 <Japanese>MHQ メニュー</Japanese>
@@ -1803,13 +1803,13 @@
 <Russian>Выбрать место возрождения</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_304">
-<English>Settings&amp;Status</English>
-<Spanish>Settings&amp;Status</Spanish>
-<Portuguese>Settings&amp;Status</Portuguese>
-<Korean>Settings&amp;Status</Korean>
-<Japanese>Settings&amp;Status</Japanese>
-<Original>Settings&amp;Status</Original>
-<Russian>Settings&amp;Status</Russian>
+<English>Show Status</English>
+<Spanish>Mostrar Estado</Spanish>
+<Portuguese>Estado de espetáculo</Portuguese>
+<Korean>상태창 보기</Korean>
+<Japanese>ステータスを表示</Japanese>
+<Original>Show Status</Original>
+<Russian>НАСТРОЙКИ</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_305">
 <English>Build Mash</English>
@@ -2118,39 +2118,39 @@
 <Russian>Дальность прорисовки: %1</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_359">
-<English>No Grass</English>
+<English>No Gras</English>
 <Spanish>Sin Hierba</Spanish>
 <Portuguese>Nenhum Gras</Portuguese>
 <Korean>숲풀 없음</Korean>
 <Japanese>草無し</Japanese>
-<Original>No Grass</Original>
+<Original>No Gras</Original>
 <Russian>Без травы</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_360">
-<English>Medium Grass</English>
+<English>Medium Gras</English>
 <Spanish>Poca Hierba</Spanish>
 <Portuguese>Médio Gras</Portuguese>
 <Korean>숲풀 중간</Korean>
 <Japanese>草量 中</Japanese>
-<Original>Medium Grass</Original>
+<Original>Medium Gras</Original>
 <Russian>Средняя трава</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_361">
-<English>Full Grass</English>
+<English>Full Gras</English>
 <Spanish>Mucha Hierba</Spanish>
 <Portuguese>Cheio Gras</Portuguese>
 <Korean>숲풀 최대</Korean>
 <Japanese>草量 フル</Japanese>
-<Original>Full Grass</Original>
+<Original>Full Gras</Original>
 <Russian>Много травы</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_362">
-<English>Grass Layer</English>
+<English>Gras Layer</English>
 <Spanish>Capa de Hierba</Spanish>
 <Portuguese>Gras Capa</Portuguese>
 <Korean>숲풀 레이어</Korean>
 <Japanese>草層</Japanese>
-<Original>Grass Layer</Original>
+<Original>Gras Layer</Original>
 <Russian>Уровень травы</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_363">
@@ -2317,12 +2317,13 @@
 <Russian>Внимание!!!/n/n %1 поменял никнэйм.....\n\n. Его ник до этого был %2 !!!</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_507">
-<English>%1 was arrested because of team killing, number team kills: %2</English>
-<Spanish>%1 fue arrestado por matar a su equipo, número de muertos: %2</Spanish>
-<Portuguese>%1 esteve preso devido a assassinato de equipe, equipe de número mata: %2</Portuguese>
+<English>%1 was kicked to the lobby because of team killing, number team kills: %2</English>
+<Spanish>%1 fue expulsado al vestíbulo por matar a su equipo, número de muertos: %2</Spanish>
+<Portuguese>%1 esteve chutado ao lobby devido a assassinato de equipe, equipe de número mata: %2</Portuguese>
 <Korean>%1 는 팀킬로 인해 로비로 킥당하였습니다. 팀킬한 횟수: %2</Korean>
 <Japanese>%1 はチームキルのためにロビーへキックされました。チームキル数: %2</Japanese>
-<Original>%1 was arrested because of team killing, number team kills: %2</Original>
+<Original>%1 was kicked to the lobby because of team killing, number team kills: %2</Original>
+<Russian>%1 кикнут в лобби за тимкилл, кол-во тимкиллов %2</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_508">
 <English>%1 was kicked to the lobby automatically because of too much unnecessary shooting at base</English>
@@ -2433,31 +2434,31 @@
 <Russian>Боеприпасы</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_524">
-<English>Vehicle Service Point</English>
-<Spanish>Punto de Servicio de Vehículos</Spanish>
-<Portuguese>Veículo Ponto de Serviço</Portuguese>
-<Korean>차량 정비</Korean>
-<Japanese>Vehicle Service Point</Japanese>
-<Original>Vehicle Service Point</Original>
-<Russian>Ремонт техники</Russian>
+<English>Vehicle/UAV Service Point</English>
+<Spanish>Punto de Servicio de Vehículos/UAV</Spanish>
+<Portuguese>Veículo/UAV Ponto de Serviço</Portuguese>
+<Korean>차량 / UGV 정비</Korean>
+<Japanese>Vehicle/UAV Service Point</Japanese>
+<Original>Vehicle/UAV Service Point</Original>
+<Russian>Ремонт техники и ПБЛА.</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_526">
-<English>Airplane Service Point</English>
+<English>Plane Service Point</English>
 <Spanish>Punto de Servicio de Aviones</Spanish>
 <Portuguese>Ponto de Serviço do avião</Portuguese>
 <Korean>고정익 정비</Korean>
-<Japanese>Airplane Service Point</Japanese>
-<Original>Airplane Service Point</Original>
+<Japanese>Plane Service Point</Japanese>
+<Original>Plane Service Point</Original>
 <Russian>Ремонт самолетов</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_528">
-<English>Helicopter Service Point</English>
-<Spanish>Punto de Servicio de Helicópteros</Spanish>
-<Portuguese>Helicopter Ponto de serviço</Portuguese>
-<Korean>회전익 정비</Korean>
-<Japanese>Helicopter Service Point</Japanese>
-<Original>Helicopter Service Point</Original>
-<Russian>Ремонт вертолетов</Russian>
+<English>Chopper/UAV Service Point</English>
+<Spanish>Punto de Servicio de Helicópteros/UAV</Spanish>
+<Portuguese>Chopper/UAV Ponto de serviço</Portuguese>
+<Korean>회전익 / UAV 정비</Korean>
+<Japanese>Chopper/UAV Service Point</Japanese>
+<Original>Chopper/UAV Service Point</Original>
+<Russian>Ремонт вертолетов и ПБЛА</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_531">
 <English>Ammobox load point</English>
@@ -2524,8 +2525,8 @@
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_533">
 <English>Teleport</English>
-<Spanish>Teletrasportar</Spanish>
-<Portuguese>Teletrasportar</Portuguese>
+<Spanish>=TELETRASPORTAR MHQ=</Spanish>
+<Portuguese>=TELETRASPORTAR MHQ=</Portuguese>
 <Korean>텔레포트하기</Korean>
 <Japanese>テレポートする</Japanese>
 <Original>Teleport</Original>
@@ -2656,12 +2657,12 @@
 <Russian>Устройство пока не найдено...</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_552">
-<English>Squad Management</English>
+<English>Squad Mgmt</English>
 <Spanish>Estado Equipo</Spanish>
 <Portuguese>Equipe Estado</Portuguese>
 <Korean>그룹 관리</Korean>
 <Japanese>グループ管理</Japanese>
-<Original>Squad Management</Original>
+<Original>Squad Mgmt</Original>
 <Russian>Вступить в группу</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_554">
@@ -3455,12 +3456,12 @@
 <Russian>Противник вынужден отступить.</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_686">
-<English>Grass layer set to: %1</English>
+<English>Gras layer set to: %1</English>
 <Spanish>Establece Capa de Hierba: %1</Spanish>
 <Portuguese>Gras A capa posta a: %1</Portuguese>
 <Korean>풀숲 레이어 설정: %1</Korean>
 <Japanese>草むら層の設定: %1</Japanese>
-<Original>Grass layer set to: %1</Original>
+<Original>Gras layer set to: %1</Original>
 <Russian>Уровень травы установить: %1.</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_689">
@@ -6081,12 +6082,12 @@
 <Russian>Дальность обзора</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1287">
-<English>Select Grass Layer</English>
+<English>Select Gras Layer</English>
 <Spanish>Selec. Capa de Hierba</Spanish>
 <Portuguese>Seleciona Gras Capa</Portuguese>
 <Korean>숲과 풀 표시여부</Korean>
 <Japanese>下草のレイヤーを選択</Japanese>
-<Original>Select Grass Layer</Original>
+<Original>Select Gras Layer</Original>
 <Russian>Выбрать уровень травы</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1289">
@@ -6298,8 +6299,8 @@
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1322">
 <English>VEHICLE DIALOG</English>
-<Spanish>MENU VEHICULO</Spanish>
-<Portuguese>CARTA VEHICULO</Portuguese>
+<Spanish>MHQ MENU VEHICULO</Spanish>
+<Portuguese>MHQ CARTA VEHICULO</Portuguese>
 <Korean>장비 상태창</Korean>
 <Japanese>車両ダイアログ</Japanese>
 <Original>VEHICLE DIALOG</Original>
@@ -6396,13 +6397,13 @@
 <Russian>Возрождение доступно:</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1333">
-<English>Show Map/Respawn</English>
-<Spanish>Mostrar Mapa/Respawn</Spanish>
-<Portuguese>Mostrar Mapa/Respawn</Portuguese>
-<Korean>지도 보기/Respawn</Korean>
-<Japanese>地図を開/Respawnく</Japanese>
-<Original>Show Map/Respawn</Original>
-<Russian>Открыть карту/Respawn</Russian>
+<English>Show Map</English>
+<Spanish>Mostrar Mapa</Spanish>
+<Portuguese>Mostrar Mapa</Portuguese>
+<Korean>지도 보기</Korean>
+<Japanese>地図を開く</Japanese>
+<Original>Show Map</Original>
+<Russian>Открыть карту</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1333a">
 <English>Hide Map</English>
@@ -6892,13 +6893,13 @@
 <Russian>Вашего опыта не хватает для того, чтобы летать. Побудьте пока стрелком или командиром %1. \n\nВозможно вы сможете летать через %2 минут.</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1417">
-<English>Only pilots can fly</English>
-<Spanish>Sólo los pilotos pueden volar</Spanish>
-<Portuguese>Os pilotos únicos podem voar</Portuguese>
-<Korean>오직 조종사만 비행할 수 있습니다.</Korean>
-<Japanese>パイロットだけが航空機を飛ばすことができます </Japanese>
-<Original>Only pilots can fly</Original>
-<Russian>Только пилоты могут летать </Russian>
+<English>Only pilots can fly (you need a pilot uniform and pilot headgear)</English>
+<Spanish>Sólo los pilotos pueden volar (necesita un uniforme y casco de piloto)</Spanish>
+<Portuguese>Os pilotos únicos podem voar ( precisa um uniforme piloto e piloto headgear)</Portuguese>
+<Korean>오직 조종사만 비행할 수 있습니다.(헬기복과 헬기헬멧이 필요합니다)</Korean>
+<Japanese>パイロットだけが航空機を飛ばすことができます （パイロットユニフォームとパイロットヘッドギアが必要です）</Japanese>
+<Original>Only pilots can fly (you need a pilot uniform and pilot headgear)</Original>
+<Russian>Только пилоты могут летать (нужны шлем и костюм пилота)</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1418">
 <English>Unlock Vehicle</English>
@@ -6937,13 +6938,13 @@
 <Russian>Вы не можете вызвать эвакуацию. Вам нужны %2 очков, а у Вас %1!</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1426">
-<English>Attention!\nThe slot you have chosen is reserved for Bad Company members only.\nYou'll get kicked automatically in a few seconds!\nPlease select a non-Bad Company slot in the lobby!</English>
-<Spanish>Attention!\nThe slot you have chosen is reserved for Bad Company members only.\nYou'll get kicked automatically in a few seconds!\nPlease select a non-Bad Company slot in the lobby!</Spanish>
-<Portuguese>Attention!\nThe slot you have chosen is reserved for Bad Company members only.\nYou'll get kicked automatically in a few seconds!\nPlease select a non-Bad Company slot in the lobby!</Portuguese>
-<Korean>Attention!\nThe slot you have chosen is reserved for Bad Company members only.\nYou'll get kicked automatically in a few seconds!\nPlease select a non-Bad Company slot in the lobby!</Korean>
-<Japanese>Attention!\nThe slot you have chosen is reserved for Bad Company members only.\nYou'll get kicked automatically in a few seconds!\nPlease select a non-Bad Company slot in the lobby!</Japanese>
-<Original>Attention!\nThe slot you have chosen is reserved for Bad Company members only.\nYou'll get kicked automatically in a few seconds!\nPlease select a non-Bad Company slot in the lobby!</Original>
-<Russian>Attention!\nThe slot you have chosen is reserved for Bad Company members only.\nYou'll get kicked automatically in a few seconds!\nPlease select a non-Bad Company slot in the lobby!</Russian>
+<English>Attention!\nThis is a reserved member slot.\nYou'll get kicked automatically in a few seconds!\nPlease select another slot!</English>
+<Spanish>¡Atención!\nEsta es una ranura reservada para miembros.\nVa a ser expulsado de forma automática en pocos segundos.\nPor favor seleccione otra ranura.</Spanish>
+<Portuguese>Atenção!nThis É uma ranhura de membro reservada.nyou'll Consegue chutado automaticamente em uns quantos segundos!nPlease Seleciona outra ranhura!</Portuguese>
+<Korean>경고!\n그룹원 전용 슬랏입니다.\n곧 자동으로 킥처리되오니\n조속히 다른 슬랏으로 이동해주십시오.</Korean>
+<Japanese>注意！\nこれは予約されたメンバースロットです。\nあなたは数秒で自動的にキックされます!\n別のスロットを選択してください!</Japanese>
+<Original>Attention!\nThis is a reserved member slot.\nYou'll get kicked automatically in a few seconds!\nPlease select another slot!</Original>
+<Russian>Внимание!\nЭто резервный слот. \n Вас кикнет автоматически через 5 секунд!</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1428">
 <English>Ammo box drop only possible from the pilot seat!</English>
@@ -7649,13 +7650,13 @@
 <Russian>Король Седии ликвидирован! Отличная работа!</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1644">
-<English>Teleporter</English>
-<Spanish>Teleporter</Spanish>
-<Portuguese>Teleporter</Portuguese>
-<Korean>Teleporter</Korean>
-<Japanese>Teleporter</Japanese>
-<Original>Teleporter</Original>
-<Russian>Teleporter</Russian>
+<English>Base Flag</English>
+<Spanish>Bandera de base</Spanish>
+<Portuguese>Bandeira de base</Portuguese>
+<Korean>Base Flag</Korean>
+<Japanese>Base Flag</Japanese>
+<Original>Base Flag</Original>
+<Russian>Меню базы</Russian>
 </Key>
 <Key ID="STR_DOM_MISSIONSTRING_1645">
 <English>Attention!!! You are using a NVG scope which is not allowed.\n\nRemoving it now, please choose another scope!</English>

@@ -17,13 +17,13 @@ _ctrl ctrlSetPosition [((_this select 2) * 0.025) + 0.13,0.05 + (_this select 3)
 _ctrl ctrlCommit 0.5;
 _ctrl ctrlSetScale 4;
 _ctrl ctrlCommit 0.25;
-sleep 0.125;
+sleep 0.25;
 _ctrl ctrlSetScale 1.2;
 _ctrl ctrlCommit 0.25;
-sleep 7.375;
+sleep 14.75;
 _ctrl ctrlSetFade 1;
-_ctrl ctrlCommit 13.375;
-sleep 1;
+_ctrl ctrlCommit 1;
+sleep 2;
 d_animL_controls pushBack _ctrl;
 
 true

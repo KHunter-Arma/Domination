@@ -5,13 +5,6 @@
 
 __TRACE("fn_playerfiredeh")
 
-// make PCML disposable
-if (param[1] == "launch_NLAW_F") exitWith {
-	player removeWeapon "launch_NLAW_F";
-	private _tube = createSimpleObject ["a3\weapons_f\launchers\nlaw\nlaw_F.p3d", getposasl player];
-	_tube setposatl ((getposatl player) vectorAdd [0,0,0.1]);
-	call d_fnc_save_layoutgear;
-};
 if (d_player_in_air && {animationState player == "halofreefall_non" && {(_this select 4) isKindOf "TimeBombCore"}}) then {
 	deleteVehicle (_this select 6);
 	player addMagazine (_this select 5);
