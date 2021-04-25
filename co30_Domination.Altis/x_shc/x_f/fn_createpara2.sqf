@@ -61,6 +61,18 @@ if (alive _chopper && {canMove _chopper && {alive driver _chopper}}) then {
 	{
 		private _pposcx = getPosATL _chopper;
 		_one_unit = _paragrp createUnit [_x, [_pposcx # 0, _pposcx # 1, 0], [], 0,"NONE"];
+		if (Hz_customUnitLoadouts) then {
+			_one_unit call AI_setupUnitCustomLoadout;
+		};
+		_one_unit addEventHandler ["HandleDamage",{
+			_return = _this select 2;
+			_source = _this select 3;
+			_unit = _this select 0;		
+			if (((_this select 4) == "") && {(isnull _source) || {((side _source) getFriend (side _unit)) >= 0.6}}) then {
+				_return = 0;
+			};
+			_return 
+		}];
 		[_one_unit] joinSilent _paragrp;
 		
 		private _para = createVehicle [d_non_steer_para, _pposcx, [], 20, "NONE"];
@@ -76,14 +88,17 @@ if (alive _chopper && {canMove _chopper && {alive driver _chopper}}) then {
 				(_this select 0) removeAllEventHandlers "Killed";
 			}];
 		};
+		/*
 		_one_unit setUnitAbility ((d_skill_array # 0) + (random (d_skill_array # 1)));
 		_one_unit setSkill ["aimingAccuracy", _subskill];
 		_one_unit setSkill ["spotTime", _subskill];
+		*/
+		_one_unit call AI_setSkill;
 		sleep 0.551;
 	} forEach _real_units;
 	_paragrp allowFleeing 0;
 	_paragrp setCombatMode "YELLOW";
-	_paragrp setBehaviour "AWARE";
+	_paragrp setBehaviour "STEALTH";
 	
 	sleep 0.113;
 	_paragrp spawn {

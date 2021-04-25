@@ -93,36 +93,51 @@ switch (_type) do {
 			_grp setVariable ["d_defend", true];
 			[_grp, _pos] spawn d_fnc_taskDefend;
 		} else {
-			_grp setCombatMode "YELLOW";
+			_grp setCombatMode "RED";
 			_grp setFormation selectRandom ["COLUMN","STAG COLUMN","WEDGE","ECH LEFT","ECH RIGHT","VEE","LINE","FILE","DIAMOND"];
 			_grp setFormDir (floor random 360);
 			_grp setSpeedMode "NORMAL";
-			_grp setBehaviour "SAFE";
+			_grp setBehaviour "AWARE";
 		};
 	};
 	case "guardstatic": {
 		if (_grptype == "allmen" || {_grptype == "specops"}) then {
 			_grp setVariable ["d_defend", true];
-			[_grp, _pos] spawn d_fnc_taskDefend;
+			// Hunter: Make these guys garrison buildings instead
+			//[_grp, _pos] spawn d_fnc_taskDefend;
+			[_grp,500,true,[100,2],true,2] execVM "logistics\garrison.sqf";
 		} else {
-			_grp setCombatMode "YELLOW";
+			_grp setCombatMode "RED";
 			_grp setFormation selectRandom ["COLUMN","STAG COLUMN","WEDGE","ECH LEFT","ECH RIGHT","VEE","LINE","FILE","DIAMOND"];
 			_grp setFormDir (floor random 360);
 			_grp setSpeedMode "NORMAL";
-			_grp setBehaviour "SAFE";
+			_grp setBehaviour "AWARE";
 		};
 	};
 	case "guardstatic2": {
-		(_vecs # 0) setDir (floor random 360);
+		// Hunter: make direction more sensible
+		//(_vecs # 0) setDir (floor random 360);
+		(_vecs # 0) setdir (d_cur_tgt_pos getdir (_vecs # 0));
+		(_vecs # 0) setPos (getpos (_vecs # 0)); // Hunter: might prevent static weapons from tipping over?
+		(_vecs # 0) setSkill 1;
 	};
 	case "attack": {
 		_grp setBehaviour "AWARE";
+		_grp setCombatMode "RED";
 		private _gwp = _grp addWaypoint [_target_pos, 30];
 		_gwp setWaypointtype "SAD";
-		_gwp setWaypointCombatMode "YELLOW";
+		_gwp setWaypointCombatMode "RED";
 		_gwp setWaypointSpeed "FULL";
 	};
 };
+
+// Hunter: Max out all vehicle AI skills
+{
+	if ((vehicle _x) != _x) then {	
+		_x setSkill 1;	
+	};
+} foreach units _grp;
+_grp setBehaviour "COMBAT";
 
 if (d_with_dynsim == 0) then {
 	[_grp, _sleepti] spawn {

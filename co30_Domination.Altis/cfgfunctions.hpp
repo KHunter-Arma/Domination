@@ -103,11 +103,11 @@ class cfgFunctions {
 			addc(player_name_huddo);
 			addc(gethpname);
 			addc(inventoryopened);
+			addc(inventoryclosed);
 			addc(command_menu);
 			addc(dcmcc);
 			addc(clean_craters);
 			addc(RemABoxC);
-			addc(air_box);
 			addc(the_end);
 			addc(doarti);
 			addc(sm_res_client);
@@ -148,6 +148,12 @@ class cfgFunctions {
 			addc(serverrules);
 			addc(playsound);
 			addc(repack_mags);
+			addc(checkitem);
+			addc(checkswitchseat);
+			addc(allowed_item);
+			addc(forbidden_item);
+			addc(badco_uniform);
+			addc(replenishbox);
 		};
 		class Dom_UI {
 			file = "x_client\x_f\x_ui";
@@ -243,6 +249,7 @@ class cfgFunctions {
 			addc(tjetservice);
 			addc(tchopservice);
 			addc(tvecservice);
+			addc(tboatservice);			
 			addc(tallservice);
 			addc(delruin);
 			addc(isnvgoggles);
@@ -254,6 +261,14 @@ class cfgFunctions {
 			addc(create_route);
 			addc(setposagls);
 			addc(isplayer);
+			addc(prison_check);
+			addc(prison_in);
+			addc(prison_out);	
+			addc(air_box);
+			addc(setOwner);
+			addc(planeSet);
+			addc(cargoPlaneDropMP);
+			addc(l_v);
 		};
 		class Dom_ext_Scripts {
 			file = "scripts";
@@ -365,7 +380,6 @@ class cfgFunctions {
 			addc(rusermarkers);
 			addc(rallusermarkers);
 			addc(airmarkermove);
-			addc(l_v);
 			addc(allunits_add);
 			addc(makemtgmarker);
 			addc(addppoints);
@@ -396,7 +410,9 @@ class cfgFunctions {
 			addc(getskinpoly);
 			addc(handlescore);
 			addc(add_hs);
-			addc(giveplayerscore);
+			addc(giveplayerscore);					
+			addc(addScoreHandler);	
+			addc(initZeus);
 		};
 		class Dom_SHC {
 			file = "x_shc\x_f";

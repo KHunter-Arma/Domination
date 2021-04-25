@@ -4,8 +4,12 @@
 #include "..\..\x_setup.sqf"
 
 if (isDedicated) exitWith {};
+if (player getVariable ["d_isinprison", false]) exitWith {};
 
 __TRACE_1("","_this")
+
+call d_fnc_save_layoutgear;
+
 private _box = _this select 1;
 
 if (_box getVariable ["d_player_ammobox", false]) then {
@@ -22,6 +26,7 @@ if (_box getVariable ["d_player_ammobox", false]) then {
 	};
 	true
 } else {
+//Hunter: following was commented out by Xeno
 	/*0 spawn {
 		private _disp = displayNull;
 		waitUntil {_disp = findDisplay 602;!isNull _disp || {!alive player || {player getVariable ["xr_pluncon", false] || {player getVariable ["ace_isunconscious", false]}}}};

@@ -13,8 +13,14 @@ if (!isServer) then {
 call compile preprocessFileLineNumbers "x_shc\x_f\x_shcfunctions.sqf";
 #endif
 
+Hz_customUnitLoadouts = true;
+AI_setupUnitCustomLoadout = compile preprocessFileLineNumbers "AI_setupUnitCustomLoadout.sqf";
+
 if (hasInterface) then {
-	private _vd = profileNamespace getVariable ["dom_viewdistance", d_InitialViewDistance];
+	// Hunter: set this to a default low value so people don't forget their setting at high and then complain about low FPS...
+	//private _vd = profileNamespace getVariable ["dom_viewdistance", d_InitialViewDistance];
+	private _vd = 2000;
+	setTerrainGrid 50;
 	if (_vd > d_MaxViewDistance) then {
 		_vd = d_MaxViewDistance;
 	};
@@ -23,6 +29,26 @@ if (hasInterface) then {
 } else {
 	setViewDistance d_InitialViewDistance;
 	setObjectViewDistance (d_InitialViewDistance + 100);
+	
+	Hz_min_desired_server_VD = 2000;
+	Hz_max_desired_server_VD = 5000;
+	Hz_min_desired_server_FPS = 8;
+	Hz_max_desired_server_FPS = 15;	
+	
+	//Server DVD
+	[] spawn {		     
+		
+		while {true} do {
+			
+			uisleep 5;
+
+			if(diag_fps < Hz_min_desired_server_FPS) then {if(viewdistance > (Hz_min_desired_server_VD + 200)) then {setviewdistance (viewdistance - 200);}else {setviewdistance Hz_min_desired_server_VD;};} else {
+				if(diag_fps > Hz_max_desired_server_FPS) then {if(viewdistance < (Hz_max_desired_server_VD - 200)) then {setviewdistance (viewdistance + 200);}else {setviewdistance Hz_max_desired_server_VD;};};};
+
+		};
+		
+	}; 
+	
 };
 
 d_target_names = [];
@@ -74,6 +100,21 @@ d_target_names = [];
 } forEach ((allMissionObjects "LocationCityCapital_F") select {str _x select [0, 9] == "d_target_"});
 __TRACE_1("All targets found","d_target_names")
 
+d_the_box = switch (d_own_side) do {
+	case "GUER": {"Box_IND_Wps_F"};
+	case "EAST": {"Box_East_Wps_F"};
+	case "WEST": {
+	#ifndef __RHS__		
+		"B_CargoNet_01_ammo_F"
+	#else
+		"rhsusf_weapon_crate"
+	#endif
+	};
+};
+
+/*array of static ammoboxes at base*/
+d_static_ammoboxes = [[d_ammobox_0,"Grenade Launchers"],[d_ammobox_1,"Assault Rifles"], [d_ammobox_2,"Machine Guns"], [d_ammobox_3,"Sniper Rifles"], [d_ammobox_4,"Launchers"], [d_ammobox_5,"Grenades"], [d_ammobox_6,"Explosives"], [d_ammobox_7,"Special Purpose"], [d_ammobox_8,"Attachments"], [d_ammobox_9,"Uniforms"], [d_ammobox_10,"Backpacks"], [d_ammobox_11,"Light Armor"], [d_ammobox_12,"Medium Armor"], [d_ammobox_13,"Heavy Armor"], [d_ammobox_14,"Pistols and Submachineguns"], [d_ammobox_15,"Equipment"], [d_ammobox_16,"Assault Rifles"], [d_ammobox_17,"Machine Guns"], [d_ammobox_18,"Sniper Rifles"], [d_ammobox_19,"Special Purpose"], [d_ammobox_20,"Armor"], [d_ammobox_21,"Launchers"], [d_ammobox_22,"Explosives"], [d_ammobox_23,"Grenades"], [d_ammobox_24,"Static Weapons"], [d_ammobox_25,"Facewear"]];
+
 // positions of service buildings
 // first jet service, second chopper service, third wreck repair
 
@@ -97,6 +138,18 @@ if (isServer) then {
 		deleteMarker "d_base_chopper_sb";
 	};
 	deleteMarker "d_base_wreck_sb";
+	
+	//Hunter: delete unnecessary markers
+	if (d_bonus_vec_type == 3) then {
+
+		{
+
+			deletemarker _x;
+
+		} foreach ["d_wreck_service"];
+
+	};
+	
 	d_FLAG_BASE enableSimulationGlobal false;
 };
 
@@ -145,10 +198,13 @@ if (hasInterface) then {
 	private _allMapMarkers = allMapMarkers select {_x select [0, 20] == "d_player_ammobox_pos"};
 #ifndef __TT__
 	d_player_ammobox_pos = [];
+	//Hunter: Don't create any default "ammoboxes"
+	/*
 	{
 		d_player_ammobox_pos pushBack [markerPos _x, markerDir _x];
 		deleteMarkerLocal _x;
 	} forEach _allMapMarkers;
+	*/
 #else
 	d_player_ammobox_pos = [[], []];
 	
@@ -165,6 +221,7 @@ if (hasInterface) then {
 		deleteMarkerLocal _x;
 	} forEach _allMapMarkers;
 #endif
+
 };
 
 if (isDedicated && {d_WithRevive == 0}) then {
@@ -313,6 +370,8 @@ if (isServer) then {
 	execVM "x_bikb\kbinit.sqf";
 	
 	call compile preprocessFileLineNumbers "x_shc\x_shcinit.sqf";
+	
+	call compile preprocessFileLineNumbers "\DOMI_MEMBERS\members.sqf";
 
 #ifndef __TT__
 	0 spawn {
@@ -368,22 +427,57 @@ if (isServer) then {
 	// editor varname, unique number, true = respawn only when the chopper is completely destroyed, false = respawn after some time when no crew is in the chopper or chopper is destroyed
 	// unique number must be between 3000 and 3999
 	if (!d_ifa3lite) then {
-		[[d_chopper_1,3001,true],[d_chopper_2,3002,true],[d_chopper_3,3003,false,1500],[d_chopper_4,3004,false,1500],[d_chopper_5,3005,false,600],[d_chopper_6,3006,false,600]] call compile preprocessFileLineNumbers "x_server\x_inithelirespawn2.sqf";
+		[
+		[d_chopper_1,3001,true,1200],[d_chopper_2,3002,true,900],[d_chopper_3,3003,true,900],
+		[d_chopper_4,3004,true,1200],[d_chopper_5,3005,true,1200],[d_chopper_13,3013,true,1200],
+		[d_chopper_6,3006,true,900],[d_chopper_7,3007,true,900],[d_chopper_8,3008,true,1200],
+		[d_chopper_9,3009,true,1200],[d_chopper_10,3010,true,900],[d_chopper_11,3011,true,1200],
+		[d_chopper_12,3012,true,1200],
+		
+		[d_attack_1,3101,true,1800],		
+		[d_attack_2,3102,true,1800],
+		[d_plane_1,3103,true,900]	
+		
+		] call compile preprocessFileLineNumbers "x_server\x_inithelirespawn2.sqf";
 	};
 	// editor varname, unique number
-	//0-99 = MHQ, 100-199 = Medic vehicles, 200-299 = Fuel, Repair, Reammo trucks, 300-399 = Engineer Salvage trucks, 400-499 = Transport trucks
-	// new in 3.70  third parameter for MHQ means a message will be displayed for a MHQ if it gets destroyed
+	//0-99 = MHQ, 100-199 = Medic vehicles, 200-299 = Fuel, Repair, Reammo trucks, 300-399 = Engineer Salvage trucks, 400-499 = Transport trucks	
 	private _var = [
-		[d_vec_mhq_1,0,localize "STR_DOM_MISSIONSTRING_12"],[d_vec_mhq_2,1, localize "STR_DOM_MISSIONSTRING_13"],[d_vec_med_1,100],[d_vec_rep_1,200],[d_vec_fuel_1,201],[d_vec_ammo_1,202], [d_vec_rep_2,203],
-		[d_vec_fuel_2,204], [d_vec_ammo_2,205], [d_vec_eng_1,300], [d_vec_eng_2,301], [d_vec_trans_1,400], [d_vec_trans_2,401]
-	];
+		[d_vec_mhq_1,0,-1],[d_vec_mhq_2,1,-1],[d_vec_mhq_3,2,-1],
+		[d_vec_med_1,100,-1],[d_vec_med_2,101,-1],[d_vec_rep_1,200,-1],[d_vec_fuel_1,201,-1],[d_vec_ammo_1,202,-1],
+		[d_vec_rep_2,203,-1],[d_vec_fuel_2,204,-1], [d_vec_ammo_2,205,-1],[d_vec_eng_1,300,-1],[d_vec_eng_2,301,-1],
+		[d_vec_trans_1,400,-1],[d_vec_trans_2,401,-1],[d_vec_trans_3,402,-1],[d_vec_trans_4,403,-1],
+		
+		[d_vec_bike_1,701,-1],[d_vec_bike_2,702,-1],[d_vec_bike_3,703,-1],[d_vec_bike_4,704,-1],[d_vec_bike_5,705,-1],
+		[d_vec_bike_6,706,-1],[d_vec_bike_7,707,-1],[d_vec_bike_8,708,-1],[d_vec_bike_9,709,-1],[d_vec_bike_10,710,-1],
+		[d_vec_bike_11,711,-1],[d_vec_bike_12,712,-1],[d_vec_bike_13,713,-1],[d_vec_bike_14,714,-1],[d_vec_bike_15,715,-1],
+		[d_vec_bike_16,716,-1],[d_vec_bike_17,717,-1],[d_vec_bike_18,718,-1],[d_vec_bike_19,719,-1],[d_vec_bike_20,720,-1],
+		[d_vec_bike_21,721,-1],[d_vec_bike_22,722,-1],[d_vec_bike_23,723,-1],[d_vec_bike_24,724,-1],[d_vec_bike_25,725,-1],
+		[d_vec_bike_26,726,-1],[d_vec_bike_27,727,-1],[d_vec_bike_50,750,-1],[d_vec_bike_51,751,-1],[d_vec_bike_52,752,-1],
+		[d_vec_bike_53,753,-1],[d_vec_bike_54,754,-1],[d_vec_bike_55,755,-1],	
+		
+		[d_vec_car_1,801,-1], [d_vec_car_2,802,-1], [d_vec_car_3,803,-1],[d_vec_car_4,804,-1],
+		[d_vec_car_5,805,-1], [d_vec_car_6,806,-1], [d_vec_car_7,807,-1], [d_vec_car_8,808,-1],[d_vec_car_9,809,-1],
+		[d_vec_car_10,810,-1],[d_vec_car_11,811,-1],[d_vec_car_12,812,-1],[d_vec_car_13,813,-1],[d_vec_car_14,814,-1],
+		[d_vec_car_15,815,-1],[d_vec_car_16,816,-1],[d_vec_car_17,817,-1],[d_vec_car_18,818,-1],
+		[d_boat_1,851,-1],[d_boat_2,852,-1],[d_boat_3,853,-1],[d_boat_4,854,-1],[d_boat_5,855,-1],[d_boat_6,856,-1],
+		[d_boat_7,857,-1],
+		
+		[d_vec_tank_1,900,-1],[d_vec_tank_2,901,-1],[d_vec_tank_3,902,-1],[d_vec_tank_4,903,-1],
+		[d_vec_tank_5,904,-1],[d_vec_tank_6,905,-1],[d_vec_tank_7,906,-1],[d_vec_tank_8,907,-1],[d_vec_tank_9,908,-1]
+		
+		];
+		
 	if (d_ifa3lite) then {
 		_var pushBack [d_vec_wreck_1, 500];
 	};
 	_var call compile preprocessFileLineNumbers "x_server\x_initvrespawn2.sqf";
+	//Hunter: disable this and handle boats as ground vics instead
+	/*
 	if (!isNil "d_boat_1") then {
 		execFSM "fsms\fn_Boatrespawn.fsm";
 	};
+	*/
 #else
 	[[d_chopper_1,3001,true],[d_chopper_2,3002,true],[d_chopper_3,3003,false,1500],[d_chopper_4,3004,false,1500],[d_chopper_5,3005,false,600],[d_chopper_6,3006,false,600],
 	[d_choppero_1,4001,true],[d_choppero_2,4002,true],[d_choppero_3,4003,false,1500],[d_choppero_4,4004,false,1500],[d_choppero_5,4005,false,600],[d_choppero_6,4006,false,600]] call compile preprocessFileLineNumbers "x_server\x_inithelirespawn2.sqf";
@@ -418,6 +512,15 @@ if (isServer) then {
 	addMissionEventHandler ["HandleDisconnect", {_this call d_fnc_handledisconnect}];
 	
 	addMissionEventhandler ["BuildingChanged", {_this call d_fnc_buildingchanged}];
+	
+	
+	/*association between prison's slot (index), respawn position and disponibility*/
+	d_prison = [[[],false]];
+	//grab the loadout and delete unnecessary units...
+	d_prisonerLoadout = getUnitLoadout d_prisoner_1;
+	publicVariable "d_prisonerLoadout";
+	{d_prison pushback [getPosATL(_x),true]; deletevehicle _x;} foreach units d_prisoners;	
+	
 };
 
 if (!hasInterface) then {
@@ -521,6 +624,9 @@ if (!hasInterface) then {
 			};
 		};
 	};
+	
+	call compile preprocessFileLineNumbers "i_restrictions.sqf";
+	call compile preprocessFileLineNumbers "i_arsenal.sqf";	
 };
 
 d_init_processed = true;

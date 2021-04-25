@@ -41,9 +41,12 @@ if !(_lo # 0 isEqualTo []) then {
 	_lo spawn {
 		waitUntil {!isNil "d_player_side"};
 		if (_this # 1 == d_player_side) then {
-			player setUnitLoadout [_this # 0, false];
+			//Hunter: disable reconnect loadout saving to prevent roles exploit
+			//player setUnitLoadout [_this # 0, false];
 			call d_fnc_save_respawngear;
 			call d_fnc_save_layoutgear;
 		};
 	};
 };
+
+/*player remoteExecCall ["d_fnc_prison_check", 2];*/
